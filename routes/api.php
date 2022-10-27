@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,12 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::post('signup', [AuthController::class, 'signup']);
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+	$request->fulfill();
+
+	return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
 
 // Route::post('signup', function () {
 // 	return 'hello';

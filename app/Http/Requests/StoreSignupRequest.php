@@ -18,7 +18,7 @@ class StoreSignupRequest extends FormRequest
 			'name'               => ['required', 'min:3', 'max:15', new Lower, 'unique:users,name'],
 			'email'              => ['required', 'email', 'unique:users,email'],
 			'password'           => ['required', 'min:8', 'max:20', new Lower],
-			'confirmPassword'    => ['required'],
+			'confirmPassword'    => ['required', 'same:password'],
 		];
 	}
 }
