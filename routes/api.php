@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use App\Http\Requests\CustomEmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +18,6 @@ use App\Http\Requests\CustomEmailVerificationRequest;
 
 Route::post('signup', [AuthController::class, 'signup']);
 
-Route::get('/email/verify/{id}/{hash}', function (CustomEmailVerificationRequest $request) {
-	$request->fulfill();
-	return response()->json([
-		'message' => 'Email verified successfully',
-	], 200);
-})->middleware(['signed'])->name('verification.verify');
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'sendEmailVerificationEmail'])->middleware(['signed'])->name('verification.verify');
 
-Route::post('/email/verification-notification', [AuthController::class, 'resendVerificationEmail']);
+Route::post('/email/verification-notification', [AuthController::class, 'resendVerificationEmail'])->middleware(['throttle:6,1']);

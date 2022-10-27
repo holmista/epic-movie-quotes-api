@@ -6,6 +6,7 @@ use App\Http\Requests\StoreSignupRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Requests\ResendEmailVerificationRequest;
+use App\Http\Requests\CustomEmailVerificationRequest;
 
 class AuthController extends Controller
 {
@@ -18,9 +19,16 @@ class AuthController extends Controller
 		]);
 		event(new Registered($user));
 		return response()->json([
-			'message' => 'Signup successful',
-			'user'    => $user,
+			'message' => 'Verification email sent',
 		], 201);
+	}
+
+	public function sendEmailVerificationEmail(CustomEmailVerificationRequest $request)
+	{
+		$request->fulfill();
+		return response()->json([
+			'message' => 'Email verified successfully',
+		], 200);
 	}
 
 	public function resendVerificationEmail(ResendEmailVerificationRequest $request)
