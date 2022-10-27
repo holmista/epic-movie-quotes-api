@@ -23,6 +23,6 @@ Route::get('/email/verify/{id}/{hash}', function (CustomEmailVerificationRequest
 	return response()->json([
 		'message' => 'Email verified successfully',
 	], 200);
-
-	// return redirect('/home');
 })->middleware(['signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', [AuthController::class, 'resendVerificationEmail']);
