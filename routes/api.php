@@ -16,7 +16,9 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::post('signup', [AuthController::class, 'signup']);
+Route::post('/signup', [AuthController::class, 'signup']);
+Route::post('/signin', [AuthController::class, 'signin']);
+Route::get('/signout', [AuthController::class, 'signout']);
 
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'sendEmailVerificationEmail'])->middleware(['signed'])->name('verification.verify');
 

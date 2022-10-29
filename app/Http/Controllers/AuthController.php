@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSignupRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
-use App\Http\Requests\ResendEmailVerificationRequest;
 use App\Http\Requests\CustomEmailVerificationRequest;
+use App\Http\Requests\ResendEmailVerificationRequest;
+// use App\Http\Requests\StoreSigninRequest;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -15,7 +17,7 @@ class AuthController extends Controller
 		$user = User::create([
 			'name'     => $request->name,
 			'email'    => $request->email,
-			'password' => $request->password,
+			'password' => bcrypt($request->password),
 		]);
 		event(new Registered($user));
 		return response()->json([
@@ -45,5 +47,24 @@ class AuthController extends Controller
 		return response()->json([
 			'message' => 'Verification email sent',
 		], 200);
+	}
+
+	public function signin(Request $request)
+	{
+		if (!$token = auth()->attempt($request->all()))
+		{
+			return response()->json(['error' => 'Unauthorized'], 401);
+		}
+		return response()->json([
+			'access_token' => $token,
+			'token_type'   => 'bearer',
+			'expires_in'   => auth()->factory()->getTTL() * 60,
+		]);
+	}
+
+	public function signout()
+	{
+		auth()->logout();
+		return response()->json(['message' => 'Successfully signed out']);
 	}
 }
