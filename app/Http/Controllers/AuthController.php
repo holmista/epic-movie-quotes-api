@@ -64,7 +64,7 @@ class AuthController extends Controller
 
 	public function signout()
 	{
-		auth()->logout();
+		auth()->logout(true);
 		return response()->json(['message' => 'Successfully signed out']);
 	}
 }
