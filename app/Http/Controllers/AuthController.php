@@ -28,6 +28,7 @@ class AuthController extends Controller
 	public function sendEmailVerificationEmail(CustomEmailVerificationRequest $request)
 	{
 		$request->fulfill();
+		// return response()->redirectTo(env('FRONT_BASE_URL') . 'activation-email-sent');
 		return response()->json([
 			'message' => 'Email verified successfully',
 		], 200);

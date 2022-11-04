@@ -2,12 +2,12 @@
 
 namespace App\Notifications;
 
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\URL;
+use App\Mail\AccountVerification;
 
 class CustomVerifyEmailNotification extends Notification
 {
@@ -47,13 +47,8 @@ class CustomVerifyEmailNotification extends Notification
 	public function toMail($notifiable)
 	{
 		$verificationUrl = $this->verificationUrl($notifiable);
-
-		if (static::$toMailCallback)
-		{
-			return call_user_func(static::$toMailCallback, $notifiable, $verificationUrl);
-		}
-
-		return $this->buildMailMessage($verificationUrl);
+		$frontverificationUrl = str_replace('http://localhost:8000/api/', env('FRONT_BASE_URL'), $verificationUrl);
+		return (new AccountVerification($frontverificationUrl))->to($notifiable->email);
 	}
 
 	/**
@@ -63,14 +58,14 @@ class CustomVerifyEmailNotification extends Notification
 	 *
 	 * @return \Illuminate\Notifications\Messages\MailMessage
 	 */
-	protected function buildMailMessage($url)
-	{
-		return (new MailMessage)
-			->subject(Lang::get('Verify Email Address'))
-			->line(Lang::get('Please click the button below to verify your email address.'))
-			->action(Lang::get('Verify Email Address'), $url)
-			->line(Lang::get('If you did not create an account, no further action is required.'));
-	}
+	// protected function buildMailMessage($url)
+	// {
+	// 	return new AccountVerification($url);
+	// 	// ->subject(Lang::get('Verify Email Address'))
+	// 	// ->line(Lang::get('Please click the button below to verify your email address.'))
+	// 	// ->action(Lang::get('Verify Email Address'), $url)
+	// 	// ->line(Lang::get('If you did not create an account, no further action is required.'));
+	// }
 
 	/**
 	 * Get the verification URL for the given notifiable.

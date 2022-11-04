@@ -45,7 +45,7 @@
                 account:
             </p>
             <br>
-            <a href="google.com" class="button">
+            <a href="{{ $url }}" class="button">
                 <p class="verify_email"
                     style="padding-top: 1rem; padding-bottom: 1rem; font-size: 16px; border-radius: 4px;
                         color: white; text-align: center;  text-decoration: none; background-color: #E31221; width: 128px;">
@@ -55,7 +55,7 @@
             <br>
             <p>If clicking doesn't work, you can try copying and pasting it to your browser:</p>
             <br>
-            <p style="color: #DDCCAA">urll</p>
+            <p style="color: #DDCCAA">{{ $url }}</p>
             <br>
             <p>If you have any problems, please contact us: support@moviequotes.ge</p>
             <br>
