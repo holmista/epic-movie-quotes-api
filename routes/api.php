@@ -34,3 +34,5 @@ Route::post('/forgot-password', [PasswordResetController::class, 'sendPasswordRe
 Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])->middleware('guest')->name('password.update');
 
 Route::get('/auth/redirect', [GoogleAuthController::class, 'redirect']);
+
+Route::get('/auth/callback', [GoogleAuthController::class, 'authenticate']);
