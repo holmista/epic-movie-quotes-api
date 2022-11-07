@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\GoogleAuthController;
 
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -31,3 +32,5 @@ Route::post('/email/verification-notification', [AuthController::class, 'resendV
 Route::post('/forgot-password', [PasswordResetController::class, 'sendPasswordResetEmail'])->middleware('guest')->name('password.email');
 
 Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])->middleware('guest')->name('password.update');
+
+Route::get('/auth/redirect', [GoogleAuthController::class, 'redirect']);

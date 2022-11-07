@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PassworForgotRequest;
+use App\Http\Requests\PasswordForgotRequest;
 use App\Http\Requests\PasswordResetRequest;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
@@ -11,7 +11,7 @@ use Illuminate\Auth\Events\PasswordReset;
 
 class PasswordResetController extends Controller
 {
-	public function sendPasswordResetEmail(PassworForgotRequest $request)
+	public function sendPasswordResetEmail(PasswordForgotRequest $request)
 	{
 		$status = Password::sendResetLink(
 			$request->only('email')

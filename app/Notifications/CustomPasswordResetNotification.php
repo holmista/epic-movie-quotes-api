@@ -3,8 +3,8 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Mail\PasswordReset as PasswordResetMail;
 
 class CustomPasswordResetNotification extends Notification
 {
@@ -43,10 +43,8 @@ class CustomPasswordResetNotification extends Notification
 	 */
 	public function toMail($notifiable)
 	{
-		return (new MailMessage)
-					->line('The introduction to the notification.')
-					->action('Notification Action', url($this->url))
-					->line('Thank you for using our application!');
+		$frontverificationUrl = str_replace('http://127.0.0.1:8000/api/', env('FRONT_BASE_URL'), $this->url . '?email=' . $notifiable->email);
+		return (new PasswordResetMail($frontverificationUrl))->to($notifiable->email);
 	}
 
 	/**

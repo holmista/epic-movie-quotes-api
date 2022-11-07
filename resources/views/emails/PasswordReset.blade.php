@@ -43,7 +43,7 @@
             <a href="{{ $url }}" class="button">
                 <p class="verify_email"
                     style="padding-top: 1rem; padding-bottom: 1rem; font-size: 16px; border-radius: 4px;
-                        color: white; text-align: center;  text-decoration: none; background-color: #E31221; width: 128px;">
+                        color: white; text-align: center;  text-decoration: none; background-color: #E31221; width: 150px;">
                     Reset Password
                 </p>
             </a>
