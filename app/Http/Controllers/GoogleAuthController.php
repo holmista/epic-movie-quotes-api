@@ -16,17 +16,18 @@ class GoogleAuthController extends Controller
 	public function authenticate()
 	{
 		$googleUser = Socialite::driver('google')->stateless()->user();
+		$googleUser->password = strtolower(Str::random(15));
 		$user = User::updateOrCreate([
 			'google_id' => $googleUser->id,
 		], [
 			'name'              => $googleUser->name,
 			'email'             => $googleUser->email,
-			'password'          => bcrypt(strtolower(Str::random(15))),
+			'password'          => bcrypt($googleUser->password),
 			'email_verified_at' => now(),
 		]);
 		$token = auth()->attempt([
 			'email'     => $user->email,
-			'password'  => $user->password,
+			'password'  => $googleUser->password,
 		]);
 		return response()->json([
 			'access_token' => $token,
