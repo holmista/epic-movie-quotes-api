@@ -7,8 +7,7 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Requests\CustomEmailVerificationRequest;
 use App\Http\Requests\ResendEmailVerificationRequest;
-// use App\Http\Requests\StoreSigninRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreSigninRequest;
 
 class AuthController extends Controller
 {
@@ -50,14 +49,25 @@ class AuthController extends Controller
 		], 200);
 	}
 
-	public function signin(Request $request)
+	public function signin(StoreSigninRequest $request)
 	{
-		if (!$token = auth()->attempt($request->all()))
+		$emailToken = auth()->attempt([
+			'email'    => $request->email,
+			'password' => $request->password,
+		]);
+		$nameToken = auth()->attempt([
+			'name'     => $request->email,
+			'password' => $request->password,
+		]);
+		if (!$emailToken && !$nameToken)
 		{
-			return response()->json(['error' => 'Unauthorized'], 401);
+			return response()->json([
+				'message' => 'Invalid credentials',
+			], 401);
 		}
+		$accessToken = $emailToken ? $emailToken : $nameToken;
 		return response()->json([
-			'access_token' => $token,
+			'access_token' => $accessToken,
 			'token_type'   => 'bearer',
 			'expires_in'   => auth()->factory()->getTTL() * 60,
 		]);
