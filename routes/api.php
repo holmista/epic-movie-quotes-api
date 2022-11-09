@@ -1,7 +1,11 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\GoogleAuthController;
+
+// use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +18,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/signup', [AuthController::class, 'signup']);
+Route::post('/signin', [AuthController::class, 'signin']);
+Route::get('/signout', [AuthController::class, 'signout']);
+Route::get('/email', function () {
+	return view('emails.AccountVerification');
 });
+
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'sendEmailVerificationEmail'])->middleware(['signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', [AuthController::class, 'resendVerificationEmail'])->middleware(['throttle:6,1']);
+
+Route::post('/forgot-password', [PasswordResetController::class, 'sendPasswordResetEmail'])->middleware('guest')->name('password.email');
+
+Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])->middleware('guest')->name('password.update');
+
+Route::get('/auth/redirect', [GoogleAuthController::class, 'redirect']);
+
+Route::get('/auth/callback', [GoogleAuthController::class, 'authenticate']);
