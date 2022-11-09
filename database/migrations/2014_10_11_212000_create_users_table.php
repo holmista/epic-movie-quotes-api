@@ -15,13 +15,11 @@ return new class() extends Migration {
 		Schema::create('users', function (Blueprint $table) {
 			$table->id();
 			$table->string('name');
-			$table->unsignedBigInteger('email_id');
 			$table->timestamp('email_verified_at')->nullable();
 			$table->string('password')->nullable();
 			$table->string('google_id')->nullable();
 			$table->rememberToken();
 			$table->timestamps();
-			$table->foreign('email_id')->references('id')->on('emails');
 		});
 	}
 
