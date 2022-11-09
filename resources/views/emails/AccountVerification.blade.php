@@ -37,7 +37,7 @@
             </div>
             <br>
             <p style="margin-top: 73px">
-                Hola ekaterine!
+                Hola {{ $name }}!
             </p>
             <br>
             <p>

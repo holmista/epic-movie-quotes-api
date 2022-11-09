@@ -48,7 +48,7 @@ class CustomVerifyEmailNotification extends Notification
 	{
 		$verificationUrl = $this->verificationUrl($notifiable);
 		$frontverificationUrl = str_replace('http://127.0.0.1:8000/api/', env('FRONT_BASE_URL'), $verificationUrl);
-		return (new AccountVerification($frontverificationUrl))->to($notifiable->email);
+		return (new AccountVerification($frontverificationUrl, $notifiable->name))->to($notifiable->email);
 	}
 
 	/**

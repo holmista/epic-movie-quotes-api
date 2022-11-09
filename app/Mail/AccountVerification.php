@@ -17,7 +17,7 @@ class AccountVerification extends Mailable
 	 *
 	 * @return void
 	 */
-	public function __construct(public string $url)
+	public function __construct(public string $url, public string $name)
 	{
 	}
 
