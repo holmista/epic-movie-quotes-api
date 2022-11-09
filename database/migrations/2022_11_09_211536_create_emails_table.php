@@ -16,7 +16,7 @@ return new class extends Migration {
 			$table->id();
 			$table->string('email')->unique();
 			$table->binary('is_primary');
-			$table->timestamp('email_verified_at');
+			$table->timestamp('email_verified_at')->nullable();
 			$table->unsignedBigInteger('user_id');
 			$table->timestamps();
 		});
