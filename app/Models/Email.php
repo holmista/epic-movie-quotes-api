@@ -9,10 +9,9 @@ class Email extends Model
 {
 	use HasFactory;
 
-	protected $fillable = [
-		'email',
-		'is_primary',
-		'email_verified_at',
-		'user_id',
+	protected $guarded = [];
+
+	protected $casts = [
+		'email_verified_at' => 'datetime',
 	];
 }

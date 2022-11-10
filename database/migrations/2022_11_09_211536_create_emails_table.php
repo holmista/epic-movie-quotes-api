@@ -16,10 +16,10 @@ return new class extends Migration {
 			$table->id();
 			$table->string('email')->unique();
 			$table->string('password')->nullable();
-			$table->binary('is_primary');
+			$table->boolean('is_primary');
 			$table->timestamp('email_verified_at')->nullable();
 			$table->unsignedBigInteger('user_id');
-			$table->foreign('user_id')->references('id')->on('users');
+			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 			$table->timestamps();
 		});
 	}

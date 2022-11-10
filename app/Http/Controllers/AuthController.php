@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSignupRequest;
 use App\Models\User;
+use App\Models\Email;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Requests\CustomEmailVerificationRequest;
 use App\Http\Requests\ResendEmailVerificationRequest;
@@ -15,9 +16,14 @@ class AuthController extends Controller
 	{
 		$user = User::create([
 			'name'     => $request->name,
-			'email'    => $request->email,
-			'password' => bcrypt($request->password),
 		]);
+		$email = Email::create([
+			'email'      => $request->email,
+			'password'   => bcrypt($request->password),
+			'is_primary' => true,
+			'user_id'    => $user->id,
+		]);
+		$user->email = $email;
 		event(new Registered($user));
 		return response()->json([
 			'message' => 'Verification email sent',
