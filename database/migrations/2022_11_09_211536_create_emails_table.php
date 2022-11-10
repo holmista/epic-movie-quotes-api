@@ -15,8 +15,6 @@ return new class extends Migration {
 		Schema::create('emails', function (Blueprint $table) {
 			$table->id();
 			$table->string('email')->unique();
-			$table->string('password')->nullable();
-			$table->boolean('is_primary');
 			$table->timestamp('email_verified_at')->nullable();
 			$table->unsignedBigInteger('user_id');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

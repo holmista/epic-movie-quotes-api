@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\User;
+use App\Models\Email;
 
 class CustomEmailVerificationRequest extends FormRequest
 {

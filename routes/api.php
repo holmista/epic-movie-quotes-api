@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\EmailController;
 
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -36,3 +37,5 @@ Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']
 Route::get('/auth/redirect', [GoogleAuthController::class, 'redirect']);
 
 Route::get('/auth/callback', [GoogleAuthController::class, 'authenticate']);
+
+Route::post('/email', [EmailController::class, 'create']);

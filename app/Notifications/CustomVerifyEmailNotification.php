@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\URL;
 use App\Mail\AccountVerification;
+use Illuminate\Support\Facades\Log;
 
 class CustomVerifyEmailNotification extends Notification
 {
@@ -32,6 +33,10 @@ class CustomVerifyEmailNotification extends Notification
 	 *
 	 * @return array|string
 	 */
+	public function __construct(public string | null $to = null)
+	{
+	}
+
 	public function via($notifiable)
 	{
 		return ['mail'];
@@ -46,9 +51,10 @@ class CustomVerifyEmailNotification extends Notification
 	 */
 	public function toMail($notifiable)
 	{
+		Log::info($notifiable->email);
 		$verificationUrl = $this->verificationUrl($notifiable);
 		$frontverificationUrl = str_replace(['http://127.0.0.1:8000/api/', 'http://localhost:8000/api/'], env('FRONT_BASE_URL'), $verificationUrl);
-		return (new AccountVerification($frontverificationUrl, $notifiable->name))->to($notifiable->email);
+		return (new AccountVerification($frontverificationUrl, $notifiable->name))->to($this->to ?? $notifiable->email);
 	}
 
 	/**
@@ -86,7 +92,7 @@ class CustomVerifyEmailNotification extends Notification
 			Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
 			[
 				'id'   => $notifiable->getKey(),
-				'hash' => sha1($notifiable->getEmailForVerification()),
+				'hash' => $this->to ? sha1($this->to) : sha1($notifiable->getEmailForVerification()),
 			]
 		);
 	}

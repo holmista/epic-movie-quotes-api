@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSignupRequest;
 use App\Models\User;
-use App\Models\Email;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Requests\CustomEmailVerificationRequest;
 use App\Http\Requests\ResendEmailVerificationRequest;
@@ -16,14 +15,9 @@ class AuthController extends Controller
 	{
 		$user = User::create([
 			'name'     => $request->name,
+			'email'    => $request->email,
+			'password' => bcrypt($request->password),
 		]);
-		$email = Email::create([
-			'email'      => $request->email,
-			'password'   => bcrypt($request->password),
-			'is_primary' => true,
-			'user_id'    => $user->id,
-		]);
-		$user->email = $email;
 		event(new Registered($user));
 		return response()->json([
 			'message' => 'Verification email sent',
@@ -33,7 +27,6 @@ class AuthController extends Controller
 	public function sendEmailVerificationEmail(CustomEmailVerificationRequest $request)
 	{
 		$request->fulfill();
-		// return response()->redirectTo(env('FRONT_BASE_URL') . 'activation-email-sent');
 		return response()->json([
 			'message' => 'Email verified successfully',
 		], 200);
@@ -57,21 +50,40 @@ class AuthController extends Controller
 
 	public function signin(StoreSigninRequest $request)
 	{
-		$emailToken = auth()->attempt([
-			'email'    => $request->email,
-			'password' => $request->password,
-		]);
-		$nameToken = auth()->attempt([
-			'name'     => $request->email,
-			'password' => $request->password,
-		]);
-		if (!$emailToken && !$nameToken)
+		$authBy = null;
+		$userEmail = User::where('email', $request->email)->first();
+		if ($userEmail)
+		{
+			$authBy = 'email';
+		}
+		$userName = User::where('name', $request->email)->first();
+		if ($userName)
+		{
+			$authBy = 'name';
+		}
+		$user = $userEmail ?? $userName;
+		if (!$user)
 		{
 			return response()->json([
 				'message' => 'Invalid credentials',
 			], 401);
 		}
-		$accessToken = $emailToken ? $emailToken : $nameToken;
+		if (!$user->email_verified_at)
+		{
+			return response()->json([
+				'message' => 'Email not verified',
+			], 401);
+		}
+		$accessToken = auth()->attempt([
+			$authBy    => $request->email,
+			'password' => $request->password,
+		]);
+		if (!$accessToken)
+		{
+			return response()->json([
+				'message' => 'Invalid credentials',
+			], 401);
+		}
 		return response()->json([
 			'access_token' => $accessToken,
 			'token_type'   => 'bearer',
