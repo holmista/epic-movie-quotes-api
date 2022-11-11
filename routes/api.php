@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\UserController;
 
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -40,4 +41,5 @@ Route::get('/auth/callback', [GoogleAuthController::class, 'authenticate']);
 
 Route::post('/email', [EmailController::class, 'create']);
 Route::delete('/email', [EmailController::class, 'delete']);
+Route::patch('/user', [UserController::class, 'update']);
 Route::post('/email/primary', [EmailController::class, 'makePrimary']);
