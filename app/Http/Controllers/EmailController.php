@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEmailRequest;
 use App\Models\Email;
 use App\Http\Requests\StoreMakeEmailPrimaryRequest;
 use App\Models\User;
+use App\Http\Requests\DeleteEmailRequest;
 
 class EmailController extends Controller
 {
@@ -41,6 +42,15 @@ class EmailController extends Controller
 		$user->save();
 		return response()->json([
 			'message' => 'Email updated successfully',
+		], 200);
+	}
+
+	public function delete(DeleteEmailRequest $request)
+	{
+		$email = Email::where('email', $request->input('email'))->first();
+		$email->delete();
+		return response()->json([
+			'message' => 'Email deleted successfully',
 		], 200);
 	}
 }

@@ -39,4 +39,5 @@ Route::get('/auth/redirect', [GoogleAuthController::class, 'redirect']);
 Route::get('/auth/callback', [GoogleAuthController::class, 'authenticate']);
 
 Route::post('/email', [EmailController::class, 'create']);
+Route::delete('/email', [EmailController::class, 'delete']);
 Route::post('/email/primary', [EmailController::class, 'makePrimary']);
