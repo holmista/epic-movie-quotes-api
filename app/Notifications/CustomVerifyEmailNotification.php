@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\URL;
 use App\Mail\AccountVerification;
 use Illuminate\Support\Facades\Log;
+use App\Models\Email;
 
 class CustomVerifyEmailNotification extends Notification
 {
@@ -86,13 +87,14 @@ class CustomVerifyEmailNotification extends Notification
 		{
 			return call_user_func(static::$createUrlCallback, $notifiable);
 		}
-
+		$secondaryEmail = Email::where('email', $this->to)->first();
 		return URL::temporarySignedRoute(
 			'verification.verify',
 			Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
 			[
-				'id'   => $notifiable->getKey(),
-				'hash' => $this->to ? sha1($this->to) : sha1($notifiable->getEmailForVerification()),
+				'id'     => $notifiable->getKey(),
+				'emailId'=> $secondaryEmail ? $secondaryEmail->id : 0,
+				'hash'   => $this->to ? sha1($this->to) : sha1($notifiable->getEmailForVerification()),
 			]
 		);
 	}

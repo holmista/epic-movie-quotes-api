@@ -26,7 +26,7 @@ Route::get('/email', function () {
 	return view('emails.AccountVerification');
 });
 
-Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'sendEmailVerificationEmail'])->middleware(['signed'])->name('verification.verify');
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'sendEmailVerificationEmail'])->middleware('signed')->name('verification.verify');
 
 Route::post('/email/verification-notification', [AuthController::class, 'resendVerificationEmail'])->middleware(['throttle:6,1']);
 
