@@ -5,12 +5,14 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Email;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class StoreMakeEmailPrimaryRequest extends FormRequest
 {
 	public function authorize(Request $request)
 	{
-		$email = Email::where('email', $request->email)->firstOrFail();
+		Log::info($this->input('email'));
+		$email = Email::where('email', $request->input('email'))->firstOrFail();
 		if (!$email->email_verified_at)
 		{
 			return false;

@@ -43,3 +43,4 @@ Route::post('/email', [EmailController::class, 'create']);
 Route::delete('/email', [EmailController::class, 'delete']);
 Route::patch('/user', [UserController::class, 'update']);
 Route::post('/email/primary', [EmailController::class, 'makePrimary']);
+Route::get('/user', [UserController::class, 'me']);

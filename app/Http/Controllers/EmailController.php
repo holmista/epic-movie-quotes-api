@@ -22,6 +22,7 @@ class EmailController extends Controller
 		event(new AddEmail($user, $email->email));
 		return response()->json([
 			'message' => 'Verification email sent',
+			'email'   => $email,
 		], 201);
 	}
 
@@ -31,7 +32,7 @@ class EmailController extends Controller
 		$oldEmail = $user->email;
 		$newEmail = Email::where('email', $request->input('email'))->first();
 		Email::where('email', $newEmail->email)->delete();
-		Email::create([
+		$oldEmail = Email::create([
 			'email'             => $oldEmail,
 			'user_id'           => $user->id,
 			'email_verified_at' => $user->email_verified_at,
@@ -41,7 +42,9 @@ class EmailController extends Controller
 		$user->email_verified_at = $newEmail->email_verified_at;
 		$user->save();
 		return response()->json([
-			'message' => 'Email updated successfully',
+			'message'            => 'Email updated successfully',
+			'new_primary_email'  => $user->email,
+			'new_secondary_email'=> $oldEmail,
 		], 200);
 	}
 
@@ -51,6 +54,6 @@ class EmailController extends Controller
 		$email->delete();
 		return response()->json([
 			'message' => 'Email deleted successfully',
-		], 200);
+		], 204);
 	}
 }

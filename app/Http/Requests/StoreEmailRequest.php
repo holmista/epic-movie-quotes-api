@@ -14,7 +14,7 @@ class StoreEmailRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'email'    => ['required', 'email', 'unique:emails,email'],
+			'email'    => ['required', 'email', 'unique:emails,email', 'unique:users,email'],
 		];
 	}
 }
