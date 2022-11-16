@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -18,9 +18,17 @@ class UserController extends Controller
 			unset($credentials['confirmPassword']);
 		}
 		Log::info($credentials);
+		if ($request->hasFile('avatar'))
+		{
+			$path = $credentials['avatar']->store('avatars');
+			$credentials['avatar'] = $path;
+		}
 		User::where('id', $user->id)->update($credentials);
+		$updated_user = User::find($user->id);
+		$updated_user->avatar = env('BACK_STORAGE_URL') . '/' . $updated_user->avatar;
 		return response()->json([
-			'message' => 'User updated successfully',
+			'message'      => 'User updated successfully',
+			'user'         => $updated_user,
 		], 200);
 	}
 
@@ -31,7 +39,9 @@ class UserController extends Controller
 		return response()->json([
 			'name'             => $user->name,
 			'email'            => $user->email,
+			'google_id'        => $user->google_id,
 			'socondary_emails' => $emails,
+			'avatar'           => env('BACK_STORAGE_URL') . '/' . $user->avatar,
 		], 200);
 	}
 }

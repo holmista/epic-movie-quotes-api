@@ -18,6 +18,7 @@ class UpdateUserRequest extends FormRequest
 			'name'               => ['min:3', 'max:15', new Lower, 'unique:users,name'],
 			'password'           => ['min:8', 'max:15', new Lower],
 			'confirmPassword'    => ['same:password'],
+			'avatar'             => ['file', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
 		];
 	}
 }
