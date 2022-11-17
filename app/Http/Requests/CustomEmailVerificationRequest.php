@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\User;
+use App\Models\Email;
+use Illuminate\Support\Facades\Log;
 
 class CustomEmailVerificationRequest extends FormRequest
 {
@@ -15,7 +17,12 @@ class CustomEmailVerificationRequest extends FormRequest
 
 	public function authorize()
 	{
-		$user = $this->getTheUser();
+		$user = User::find((int)($this->route('id')));
+		$this->email = $user->getEmailForVerification();
+		if ($this->query('emailId') !== '0')
+		{
+			$this->email = Email::find((int)($this->query('emailId')));
+		}
 		if (!hash_equals(
 			(string) $this->route('id'),
 			/*this line is casing the issue*/
@@ -24,13 +31,19 @@ class CustomEmailVerificationRequest extends FormRequest
 		{
 			return false;
 		}
-
-		if (!hash_equals(
-			(string) $this->route('hash'),
-			sha1($user->getEmailForVerification())
-		))
+		if (gettype($this->email) === 'string')
 		{
-			return false;
+			if (!hash_equals((string) $this->route('hash'), sha1($this->email)))
+			{
+				return false;
+			}
+		}
+		else
+		{
+			if (!hash_equals((string) $this->route('hash'), sha1($this->email->email)))
+			{
+				return false;
+			}
 		}
 
 		return true;
@@ -55,11 +68,25 @@ class CustomEmailVerificationRequest extends FormRequest
 	public function fulfill()
 	{
 		$user = $this->getTheUser();
-		if (!$user->hasVerifiedEmail())
+		Log::info($this->query('emailId'));
+		if ($this->query('emailId') === '0')
 		{
-			$user->markEmailAsVerified();
+			if (!$user->hasVerifiedEmail())
+			{
+				$user->markEmailAsVerified();
 
-			event(new Verified($user));
+				event(new Verified($user));
+			}
+		}
+		else
+		{
+			Log::info('emailId is not 0');
+			// $email = Email::find((int)$this->query('emailId'))->first();
+			if (!$this->email->email_verified_at)
+			{
+				$this->email->email_verified_at = now();
+				$this->email->save();
+			}
 		}
 	}
 
