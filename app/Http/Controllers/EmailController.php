@@ -8,10 +8,11 @@ use App\Models\Email;
 use App\Http\Requests\StoreMakeEmailPrimaryRequest;
 use App\Models\User;
 use App\Http\Requests\DeleteEmailRequest;
+use Illuminate\Http\JsonResponse;
 
 class EmailController extends Controller
 {
-	public function create(StoreEmailRequest $request)
+	public function create(StoreEmailRequest $request): JsonResponse
 	{
 		$user = auth()->user();
 		$email = $request->input('email');
@@ -26,7 +27,7 @@ class EmailController extends Controller
 		], 201);
 	}
 
-	public function makePrimary(StoreMakeEmailPrimaryRequest $request)
+	public function makePrimary(StoreMakeEmailPrimaryRequest $request): JsonResponse
 	{
 		$user = auth()->user();
 		$oldEmail = $user->email;
@@ -48,7 +49,7 @@ class EmailController extends Controller
 		], 200);
 	}
 
-	public function delete(DeleteEmailRequest $request)
+	public function delete(DeleteEmailRequest $request): JsonResponse
 	{
 		$email = Email::where('email', $request->input('email'))->first();
 		$email->delete();

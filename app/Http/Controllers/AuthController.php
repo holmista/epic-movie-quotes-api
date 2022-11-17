@@ -8,10 +8,11 @@ use Illuminate\Auth\Events\Registered;
 use App\Http\Requests\CustomEmailVerificationRequest;
 use App\Http\Requests\ResendEmailVerificationRequest;
 use App\Http\Requests\StoreSigninRequest;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-	public function signup(StoreSignupRequest $request)
+	public function signup(StoreSignupRequest $request): JsonResponse
 	{
 		$user = User::create([
 			'name'     => $request->name,
@@ -24,7 +25,7 @@ class AuthController extends Controller
 		], 201);
 	}
 
-	public function sendEmailVerificationEmail(CustomEmailVerificationRequest $request)
+	public function sendEmailVerificationEmail(CustomEmailVerificationRequest $request): JsonResponse
 	{
 		$request->fulfill();
 		return response()->json([
@@ -32,7 +33,7 @@ class AuthController extends Controller
 		], 200);
 	}
 
-	public function resendVerificationEmail(ResendEmailVerificationRequest $request)
+	public function resendVerificationEmail(ResendEmailVerificationRequest $request): JsonResponse
 	{
 		$email = $request->input('email');
 		$user = User::where('email', $email)->first();
@@ -48,7 +49,7 @@ class AuthController extends Controller
 		], 200);
 	}
 
-	public function signin(StoreSigninRequest $request)
+	public function signin(StoreSigninRequest $request): JsonResponse
 	{
 		$authBy = null;
 		$userEmail = User::where('email', $request->email)->first();
@@ -91,7 +92,7 @@ class AuthController extends Controller
 		]);
 	}
 
-	public function signout()
+	public function signout(): JsonResponse
 	{
 		auth()->logout(true);
 		return response()->json(['message' => 'Successfully signed out']);

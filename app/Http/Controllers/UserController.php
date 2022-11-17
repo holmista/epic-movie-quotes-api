@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
-	public function update(UpdateUserRequest $request)
+	public function update(UpdateUserRequest $request): JsonResponse
 	{
 		$user = auth()->user();
 		$credentials = $request->validated();
@@ -32,7 +33,7 @@ class UserController extends Controller
 		], 200);
 	}
 
-	public function me()
+	public function me(): JsonResponse
 	{
 		$emails = User::find(auth()->user()->id)->emails()->get();
 		$user = auth()->user();

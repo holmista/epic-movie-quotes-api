@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Http\JsonResponse;
 
 class PasswordResetController extends Controller
 {
-	public function sendPasswordResetEmail(PasswordForgotRequest $request)
+	public function sendPasswordResetEmail(PasswordForgotRequest $request): JsonResponse
 	{
 		$status = Password::sendResetLink(
 			$request->only('email')
@@ -21,7 +22,7 @@ class PasswordResetController extends Controller
 		return response()->json(['message' =>$status]);
 	}
 
-	public function resetPassword(PasswordResetRequest $request)
+	public function resetPassword(PasswordResetRequest $request): JsonResponse
 	{
 		$status = Password::reset(
 			$request->only('email', 'password', 'password_confirmation', 'token'),
