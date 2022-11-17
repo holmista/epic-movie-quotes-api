@@ -16,6 +16,7 @@ return new class extends Migration {
 			$table->id();
 			$table->json('title');
 			$table->string('avatar');
+			$table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 			$table->foreignId('movie_id')->constrained('movies')->onDelete('cascade');
 			$table->timestamps();
 		});
