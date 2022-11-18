@@ -6,6 +6,7 @@ use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MovieController;
 
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -51,3 +52,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 		Route::get('/user', 'me');
 	});
 });
+
+Route::get('/movies', [MovieController::class, 'myMovies']);
+Route::post('/movies', [MovieController::class, 'create']);
