@@ -16,6 +16,7 @@ return new class extends Migration {
 			$table->id();
 			$table->foreignId('movie_id')->constrained('movies')->onDelete('cascade');
 			$table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+			$table->unique(['movie_id', 'category_id']);
 		});
 	}
 

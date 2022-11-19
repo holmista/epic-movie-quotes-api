@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\UniqueTitle;
 
-class StoreMovieRequest extends FormRequest
+class StoreQuoteRequest extends FormRequest
 {
 	/**
 	 * Get the validation rules that apply to the request.
@@ -15,11 +14,9 @@ class StoreMovieRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'title'       => ['required', 'json', new UniqueTitle],
-			'description' => ['required', 'json'],
+			'title'       => ['required', 'json'],
 			'avatar'      => ['required', 'file', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-			'release_year'=> ['required'],
-			'categories'  => ['required'],
+			'movie_id'    => ['required', 'exists:movies,id'],
 		];
 	}
 }

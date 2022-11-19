@@ -9,6 +9,8 @@ class Quote extends Model
 {
 	use HasFactory;
 
+	public $guarded = [];
+
 	public function comments()
 	{
 		return $this->hasMany(Comment::class);

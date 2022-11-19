@@ -7,6 +7,7 @@ use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\QuoteController;
 
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -53,5 +54,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 	});
 });
 
+Route::get('/movies/{id}/quotes', [MovieController::class, 'movieQuotes']);
 Route::get('/movies', [MovieController::class, 'myMovies']);
 Route::post('/movies', [MovieController::class, 'create']);
+Route::post('/quote', [QuoteController::class, 'create']);
+Route::patch('/quote', [QuoteController::class, 'update']);
+Route::delete('/quote/{id}', [QuoteController::class, 'delete']);

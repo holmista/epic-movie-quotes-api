@@ -18,6 +18,7 @@ class MovieController extends Controller
 	public function create(StoreMovieRequest $request)
 	{
 		$data = $request->validated();
+		$data['user_id'] = auth()->user()->id;
 		$categories = json_decode($data['categories'], true);
 		unset($data['categories']);
 		$path = $data['avatar']->store('avatars');
@@ -32,5 +33,12 @@ class MovieController extends Controller
 		});
 		$movie->avatar = env('BACK_STORAGE_URL') . '/' . $movie->avatar;
 		return response()->json(['movie'=>$movie]);
+	}
+
+	public function movieQuotes()
+	{
+		$movie = Movie::find(request()->id)->firstOrFail();
+		$quotes = $movie->quotes()->get();
+		return response()->json(['quotes'=>$quotes]);
 	}
 }
