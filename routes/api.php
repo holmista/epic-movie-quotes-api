@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -65,3 +66,6 @@ Route::patch('/quote', [QuoteController::class, 'update']);
 Route::delete('/quote/{id}', [QuoteController::class, 'delete']);
 
 Route::post('/comment', [CommentController::class, 'create']);
+
+Route::post('/like', [LikeController::class, 'create']);
+Route::delete('/like/{id}', [LikeController::class, 'delete']);
