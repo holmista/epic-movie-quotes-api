@@ -11,6 +11,10 @@ class Quote extends Model
 
 	public $guarded = [];
 
+	protected $casts = [
+		'title' => 'array',
+	];
+
 	public function comments()
 	{
 		return $this->hasMany(Comment::class);

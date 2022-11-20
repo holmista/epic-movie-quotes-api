@@ -12,8 +12,8 @@ class MovieController extends Controller
 	public function myMovies(): JsonResponse
 	{
 		$user = auth()->user();
-		$movies = $user->movies()->get();
-		return response()->json(['movies'=>$movies]);
+		$movies = $user->movies()->with('quotes')->get();
+		return response()->json(['movies'=>$movies], 200);
 	}
 
 	public function create(StoreMovieRequest $request): JsonResponse

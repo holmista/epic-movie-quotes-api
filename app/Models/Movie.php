@@ -11,6 +11,11 @@ class Movie extends Model
 
 	public $guarded = [];
 
+	protected $casts = [
+		'title'       => 'array',
+		'description' => 'array',
+	];
+
 	public function quotes()
 	{
 		return $this->hasMany(Quote::class);
