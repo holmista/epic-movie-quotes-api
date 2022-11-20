@@ -23,6 +23,8 @@ class MovieFactory extends Factory
 			'description'  => json_encode(['en' => fake()->realText(100), 'ka'=>$faker->realText(100)]),
 			'avatar'       => fake()->imageUrl(),
 			'release_year' => fake()->year(),
+			'budget'       => fake()->numberBetween(1000000, 100000000),
+			'director'     => fake()->name(),
 		];
 	}
 }

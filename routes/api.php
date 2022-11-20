@@ -10,6 +10,7 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\CategoryController;
 
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -69,3 +70,5 @@ Route::post('/comment', [CommentController::class, 'create']);
 
 Route::post('/like', [LikeController::class, 'create']);
 Route::delete('/like/{id}', [LikeController::class, 'delete']);
+
+Route::get('/category', [CategoryController::class, 'get']);

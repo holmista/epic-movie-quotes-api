@@ -18,6 +18,8 @@ return new class extends Migration {
 			$table->json('description');
 			$table->string('avatar');
 			$table->smallInteger('release_year');
+			$table->unsignedInteger('budget');
+			$table->string('director');
 			$table->foreignId('user_id')->constrained()->onDelete('cascade');
 			$table->timestamps();
 		});

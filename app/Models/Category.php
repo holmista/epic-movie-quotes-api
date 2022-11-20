@@ -11,6 +11,10 @@ class Category extends Model
 
 	public $timestamps = false;
 
+	protected $casts = [
+		'name'       => 'array',
+	];
+
 	public function movies()
 	{
 		return $this->belongsToMany(Movie::class);

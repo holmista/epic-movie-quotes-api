@@ -20,6 +20,8 @@ class StoreMovieRequest extends FormRequest
 			'avatar'      => ['required', 'file', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
 			'release_year'=> ['required'],
 			'categories'  => ['required'],
+			'budget'      => ['required', 'numeric'],
+			'director'    => ['required', 'string'],
 		];
 	}
 }
