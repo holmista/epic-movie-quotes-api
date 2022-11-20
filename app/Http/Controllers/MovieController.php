@@ -5,17 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Movie;
 use App\Http\Requests\StoreMovieRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
 
 class MovieController extends Controller
 {
-	public function myMovies()
+	public function myMovies(): JsonResponse
 	{
 		$user = auth()->user();
 		$movies = $user->movies()->get();
 		return response()->json(['movies'=>$movies]);
 	}
 
-	public function create(StoreMovieRequest $request)
+	public function create(StoreMovieRequest $request): JsonResponse
 	{
 		$data = $request->validated();
 		$data['user_id'] = auth()->user()->id;
@@ -35,7 +36,7 @@ class MovieController extends Controller
 		return response()->json(['movie'=>$movie]);
 	}
 
-	public function movieQuotes()
+	public function movieQuotes(): JsonResponse
 	{
 		$movie = Movie::find(request()->id)->firstOrFail();
 		$quotes = $movie->quotes()->get();

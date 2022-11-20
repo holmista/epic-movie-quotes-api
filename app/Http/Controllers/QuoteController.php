@@ -6,10 +6,11 @@ use App\Http\Requests\StoreQuoteRequest;
 use App\Models\Quote;
 use App\Http\Requests\UpdateQuoteRequest;
 use App\Http\Requests\DeleteQuoteRequest;
+use Illuminate\Http\JsonResponse;
 
 class QuoteController extends Controller
 {
-	public function create(StoreQuoteRequest $request)
+	public function create(StoreQuoteRequest $request): JsonResponse
 	{
 		$data = $request->validated();
 		$data['user_id'] = auth()->user()->id;
@@ -20,7 +21,7 @@ class QuoteController extends Controller
 		return response()->json(['quote'=>$quote], 201);
 	}
 
-	public function update(UpdateQuoteRequest $request)
+	public function update(UpdateQuoteRequest $request): JsonResponse
 	{
 		$data = $request->validated();
 		$quoteId = $data['id'];
@@ -36,13 +37,13 @@ class QuoteController extends Controller
 		return response()->json(['quote'=>$updated_quote], 200);
 	}
 
-	public function delete(DeleteQuoteRequest $request)
+	public function delete(DeleteQuoteRequest $request): JsonResponse
 	{
 		Quote::where('id', request()->id)->delete();
 		return response()->json(['message'=>'Quote deleted successfully'], 200);
 	}
 
-	public function get()
+	public function get(): JsonResponse
 	{
 		$quote = Quote::where('id', request()->id)->with('comments')->firstOrFail();
 		return response()->json(['quotes'=>$quote], 200);
