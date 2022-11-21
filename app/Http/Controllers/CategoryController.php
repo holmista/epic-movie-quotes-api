@@ -8,6 +8,6 @@ class CategoryController extends Controller
 {
 	public function get()
 	{
-		return response()->json(['categories'=>Category::all()], 200);
+		return response()->json(['categories'=>Category::all()]);
 	}
 }

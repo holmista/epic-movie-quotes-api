@@ -37,10 +37,7 @@ class MovieController extends Controller
 		DB::transaction(function () use ($data, $categories, &$movie) {
 			Log::info($data);
 			$movie = Movie::create($data);
-			foreach ($categories as $category)
-			{
-				DB::insert('insert into category_movie (movie_id, category_id) values (?, ?)', [$movie->id, $category]);
-			}
+			$movie->categories()->attach($categories);
 		});
 		$movie->avatar = env('BACK_STORAGE_URL') . '/' . $movie->avatar;
 		return response()->json(['movie'=>$movie], 201);
