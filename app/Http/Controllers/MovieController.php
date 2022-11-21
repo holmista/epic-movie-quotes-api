@@ -14,6 +14,10 @@ class MovieController extends Controller
 	{
 		$user = auth()->user();
 		$movies = $user->movies()->with('quotes')->get();
+		foreach ($movies as $movie)
+		{
+			$movie->avatar = env('BACK_STORAGE_URL') . '/' . $movie->avatar;
+		}
 		return response()->json(['movies'=>$movies], 200);
 	}
 

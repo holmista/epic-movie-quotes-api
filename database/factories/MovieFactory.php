@@ -21,7 +21,7 @@ class MovieFactory extends Factory
 		return [
 			'title'        => ['en' => fake()->name, 'ka'=> $faker->name],
 			'description'  => ['en' => fake()->realText(100), 'ka'=>$faker->realText(100)],
-			'avatar'       => fake()->imageUrl(),
+			'avatar'       => 'avatars/yXbp0TfRX8Hms0z6M0PPWdVfY4QcNUJRji4gwM0W.png',
 			'release_year' => fake()->year(),
 			'budget'       => fake()->numberBetween(1000000, 100000000),
 			'director'     => fake()->name(),
