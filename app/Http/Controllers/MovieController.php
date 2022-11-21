@@ -43,10 +43,8 @@ class MovieController extends Controller
 		return response()->json(['movie'=>$movie], 201);
 	}
 
-	public function movieQuotes(): JsonResponse
+	public function movieQuotes(Movie $movie): JsonResponse
 	{
-		$movie = Movie::find(request()->id)->firstOrFail();
-		$quotes = $movie->quotes()->get();
-		return response()->json(['quotes'=>$quotes]);
+		return response()->json(['quotes'=>$movie->quotes()->get()]);
 	}
 }

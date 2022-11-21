@@ -57,14 +57,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 	});
 });
 
-Route::get('/movies/{id}/quotes', [MovieController::class, 'movieQuotes']);
+Route::get('/movies/{movie}/quotes', [MovieController::class, 'movieQuotes']);
 Route::get('/movies', [MovieController::class, 'myMovies']);
 Route::post('/movies', [MovieController::class, 'create']);
 
 Route::get('/quote/{id}', [QuoteController::class, 'get']);
 Route::post('/quote', [QuoteController::class, 'create']);
-Route::patch('/quote', [QuoteController::class, 'update']);
-Route::delete('/quote/{id}', [QuoteController::class, 'delete']);
+Route::patch('/quote/{quote}', [QuoteController::class, 'update']);
+Route::delete('/quote/{quote}', [QuoteController::class, 'delete']);
 
 Route::post('/comment', [CommentController::class, 'create']);
 

@@ -16,7 +16,7 @@ class DeleteQuoteRequest extends FormRequest
 	{
 		try
 		{
-			$quote_user_id = Quote::find(request()->id)->user_id;
+			$quote_user_id = Quote::find(request()->quote->id)->user_id;
 			return auth()->user()->id === $quote_user_id;
 		}
 		catch(\Exception $e)

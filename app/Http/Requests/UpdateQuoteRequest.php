@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Quote;
+use Illuminate\Support\Facades\Log;
 
 class UpdateQuoteRequest extends FormRequest
 {
@@ -16,7 +17,8 @@ class UpdateQuoteRequest extends FormRequest
 	{
 		try
 		{
-			$quote_user_id = Quote::find(request()->id)->user_id;
+			Log::info(request()->quote);
+			$quote_user_id = Quote::find(request()->quote->id)->user_id;
 			return auth()->user()->id === $quote_user_id;
 		}
 		catch(\Exception $e)
@@ -33,7 +35,6 @@ class UpdateQuoteRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'id'    => ['required', 'exists:quotes,id'],
 			'title' => ['json'],
 			'avatar'=> ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
 		];

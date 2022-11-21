@@ -21,25 +21,23 @@ class QuoteController extends Controller
 		return response()->json(['quote'=>$quote], 201);
 	}
 
-	public function update(UpdateQuoteRequest $request): JsonResponse
+	public function update(UpdateQuoteRequest $request, Quote $quote): JsonResponse
 	{
 		$data = $request->validated();
-		$quoteId = $data['id'];
-		unset($data['id']);
 		if ($request->hasFile('avatar'))
 		{
 			$path = $data['avatar']->store('avatars');
 			$data['avatar'] = $path;
 		}
-		Quote::where('id', $quoteId)->update($data);
-		$updated_quote = Quote::find($quoteId);
+		$quote->update($data);
+		$updated_quote = Quote::find($quote->id);
 		$updated_quote->avatar = env('BACK_STORAGE_URL') . '/' . $updated_quote->avatar;
-		return response()->json(['quote'=>$updated_quote], 200);
+		return response()->json(['quote'=>$updated_quote]);
 	}
 
-	public function delete(DeleteQuoteRequest $request): JsonResponse
+	public function delete(DeleteQuoteRequest $request, Quote $quote): JsonResponse
 	{
-		Quote::where('id', request()->id)->delete();
+		$quote->delete();
 		return response()->json(['message'=>'Quote deleted successfully'], 200);
 	}
 
