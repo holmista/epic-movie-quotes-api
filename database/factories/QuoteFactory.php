@@ -19,7 +19,7 @@ class QuoteFactory extends Factory
 	{
 		$faker = FakerFactory::create('ka_GE');
 		return [
-			'title'        => json_encode(['en' => fake()->name, 'ka'=> $faker->name]),
+			'title'        => ['en' => fake()->name, 'ka'=> $faker->name],
 			'avatar'       => fake()->imageUrl(),
 		];
 	}

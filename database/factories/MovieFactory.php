@@ -19,8 +19,8 @@ class MovieFactory extends Factory
 	{
 		$faker = FakerFactory::create('ka_GE');
 		return [
-			'title'        => json_encode(['en' => fake()->name, 'ka'=> $faker->name]),
-			'description'  => json_encode(['en' => fake()->realText(100), 'ka'=>$faker->realText(100)]),
+			'title'        => ['en' => fake()->name, 'ka'=> $faker->name],
+			'description'  => ['en' => fake()->realText(100), 'ka'=>$faker->realText(100)],
 			'avatar'       => fake()->imageUrl(),
 			'release_year' => fake()->year(),
 			'budget'       => fake()->numberBetween(1000000, 100000000),

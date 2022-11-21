@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
-use App\Http\Requests\StoreMovieRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\StoreMovieRequest;
+use Illuminate\Support\Facades\Log;
 
 class MovieController extends Controller
 {
@@ -20,12 +21,17 @@ class MovieController extends Controller
 	{
 		$data = $request->validated();
 		$data['user_id'] = auth()->user()->id;
-		$categories = json_decode($data['categories'], true);
+		$data['title'] = json_decode($data['title'], true);
+		$data['description'] = json_decode($data['description'], true);
+		//$data['director'] = json_decode($data['director'], true);
+		$categories = explode(',', $data['categories']);
 		unset($data['categories']);
 		$path = $data['avatar']->store('avatars');
 		$data['avatar'] = $path;
 		$movie = null;
+		//Log::info($categories);
 		DB::transaction(function () use ($data, $categories, &$movie) {
+			Log::info($data);
 			$movie = Movie::create($data);
 			foreach ($categories as $category)
 			{
@@ -33,7 +39,7 @@ class MovieController extends Controller
 			}
 		});
 		$movie->avatar = env('BACK_STORAGE_URL') . '/' . $movie->avatar;
-		return response()->json(['movie'=>$movie]);
+		return response()->json(['movie'=>$movie], 201);
 	}
 
 	public function movieQuotes(): JsonResponse

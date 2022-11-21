@@ -21,7 +21,7 @@ class StoreMovieRequest extends FormRequest
 			'release_year'=> ['required'],
 			'categories'  => ['required'],
 			'budget'      => ['required', 'numeric'],
-			'director'    => ['required', 'string'],
+			'director'    => ['required', 'json'],
 		];
 	}
 }

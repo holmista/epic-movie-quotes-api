@@ -19,7 +19,7 @@ class CategoryFactory extends Factory
 	{
 		$faker = FakerFactory::create('ka_GE');
 		return [
-			'name'=> json_encode(['en' => fake()->realText(10), 'ka'=> $faker->realText(10)]),
+			'name'=> ['en' => fake()->realText(10), 'ka'=> fake()->realText(10)],
 		];
 	}
 }
