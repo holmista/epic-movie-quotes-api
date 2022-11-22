@@ -9,6 +9,8 @@ use App\Http\Requests\CustomEmailVerificationRequest;
 use App\Http\Requests\ResendEmailVerificationRequest;
 use App\Http\Requests\StoreSigninRequest;
 use Illuminate\Http\JsonResponse;
+use Firebase\JWT\JWT;
+use Illuminate\Support\Carbon;
 
 class AuthController extends Controller
 {
@@ -51,45 +53,28 @@ class AuthController extends Controller
 
 	public function signin(StoreSigninRequest $request): JsonResponse
 	{
-		$authBy = null;
-		$userEmail = User::where('email', $request->email)->first();
-		if ($userEmail)
+		$authenticated = auth()->attempt(
+			[
+				'email'    => request()->email,
+				'password' => request()->password,
+			]
+		);
+
+		if (!$authenticated)
 		{
-			$authBy = 'email';
+			return response()->json('wrong email or password', 401);
 		}
-		$userName = User::where('name', $request->email)->first();
-		if ($userName)
-		{
-			$authBy = 'name';
-		}
-		$user = $userEmail ?? $userName;
-		if (!$user)
-		{
-			return response()->json([
-				'message' => 'Invalid credentials',
-			], 401);
-		}
-		if (!$user->email_verified_at)
-		{
-			return response()->json([
-				'message' => 'Email not verified',
-			], 401);
-		}
-		$accessToken = auth()->attempt([
-			$authBy    => $request->email,
-			'password' => $request->password,
-		]);
-		if (!$accessToken)
-		{
-			return response()->json([
-				'message' => 'Invalid credentials',
-			], 401);
-		}
-		return response()->json([
-			'access_token' => $accessToken,
-			'token_type'   => 'bearer',
-			'expires_in'   => auth()->factory()->getTTL() * 60,
-		]);
+
+		$payload = [
+			'exp' => Carbon::now()->addSeconds(30)->timestamp,
+			'uid' => User::where('email', '=', request()->email)->first()->id,
+		];
+
+		$jwt = JWT::encode($payload, config('auth.jwt_secret'), 'HS256');
+
+		$cookie = cookie('access_token', $jwt, 30, '/', '127.0.0.1', true, true, false, 'Strict');
+
+		return response()->json('success', 200)->withCookie($cookie);
 	}
 
 	public function signout(): JsonResponse
