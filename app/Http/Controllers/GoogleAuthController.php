@@ -6,6 +6,8 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
+use Firebase\JWT\JWT;
+use Illuminate\Support\Carbon;
 
 class GoogleAuthController extends Controller
 {
@@ -26,14 +28,15 @@ class GoogleAuthController extends Controller
 			'password'          => bcrypt($googleUser->password),
 			'email_verified_at' => now(),
 		]);
-		$token = auth()->attempt([
-			'email'     => $user->email,
-			'password'  => $googleUser->password,
-		]);
-		return response()->json([
-			'access_token' => $token,
-			'token_type'   => 'bearer',
-			'expires_in'   => auth()->factory()->getTTL() * 60,
-		]);
+		$payload = [
+			'exp' => Carbon::now()->addSeconds(30)->timestamp,
+			'uid' => $user->id,
+		];
+
+		$jwt = JWT::encode($payload, config('auth.jwt_secret'), 'HS256');
+
+		$cookie = cookie('access_token', $jwt, 30, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
+
+		return response()->json('success', 200)->withCookie($cookie);
 	}
 }
