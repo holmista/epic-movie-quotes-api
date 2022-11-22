@@ -6,6 +6,11 @@ use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MovieController;
+use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\CategoryController;
 
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -51,3 +56,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
 		Route::get('/user', 'me');
 	});
 });
+
+Route::get('/movies/{movie}/quotes', [MovieController::class, 'movieQuotes']);
+Route::get('/movies', [MovieController::class, 'myMovies']);
+Route::post('/movies', [MovieController::class, 'create']);
+
+Route::get('/quote/{id}', [QuoteController::class, 'get']);
+Route::post('/quote', [QuoteController::class, 'create']);
+Route::patch('/quote/{quote}', [QuoteController::class, 'update']);
+Route::delete('/quote/{quote}', [QuoteController::class, 'delete']);
+
+Route::post('/comment', [CommentController::class, 'create']);
+
+Route::post('/like', [LikeController::class, 'create']);
+Route::delete('/like/{id}', [LikeController::class, 'delete']);
+
+Route::get('/category', [CategoryController::class, 'get']);
