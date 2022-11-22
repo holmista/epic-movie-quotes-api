@@ -62,12 +62,12 @@ class AuthController extends Controller
 
 		if (!$authenticated)
 		{
-			return response()->json('wrong email or password', 401);
+			return response()->json(['message'=>'invalid credentials'], 401);
 		}
 
 		$payload = [
 			'exp' => Carbon::now()->addMinutes(60)->timestamp,
-			'uid' => User::where('email', '=', request()->email)->first()->id,
+			'uid' => $authenticated->id,
 		];
 
 		$jwt = JWT::encode($payload, config('auth.jwt_secret'), 'HS256');

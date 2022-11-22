@@ -24,7 +24,6 @@ use App\Http\Controllers\CategoryController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::controller(AuthController::class)->group(function () {
 	Route::post('/signup', 'signup');
 	Route::post('/signin', 'signin');

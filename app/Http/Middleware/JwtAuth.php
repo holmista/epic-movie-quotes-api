@@ -30,7 +30,6 @@ class JwtAuth
 		{
 			$token = substr(request()->header('Authorization'), 7);
 		}
-		Log::info('Token: ' . $token);
 		if (!$token)
 		{
 			return response()->json([
