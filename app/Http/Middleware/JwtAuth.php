@@ -7,6 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Illuminate\Support\Facades\Log;
 
 class JwtAuth
 {
@@ -29,6 +30,7 @@ class JwtAuth
 		{
 			$token = substr(request()->header('Authorization'), 7);
 		}
+		Log::info('Token: ' . $token);
 		if (!$token)
 		{
 			return response()->json([
@@ -42,6 +44,7 @@ class JwtAuth
 		}
 		catch (\Exception $e)
 		{
+			Log::info('Exception: ' . $e->getMessage());
 			return response()->json([
 				'message' => 'access token is invalid',
 			], 401);

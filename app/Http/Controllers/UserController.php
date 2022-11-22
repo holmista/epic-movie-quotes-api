@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\JsonResponse;
 
@@ -18,7 +17,6 @@ class UserController extends Controller
 			$credentials['password'] = bcrypt($credentials['password']);
 			unset($credentials['confirmPassword']);
 		}
-		Log::info($credentials);
 		if ($request->hasFile('avatar'))
 		{
 			$path = $credentials['avatar']->store('avatars');

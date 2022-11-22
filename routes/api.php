@@ -42,7 +42,7 @@ Route::controller(GoogleAuthController::class)->group(function () {
 	Route::get('/auth/callback', [GoogleAuthController::class, 'authenticate']);
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['jwt.auth'])->group(function () {
 	Route::get('/signout', [AuthController::class, 'signout']);
 
 	Route::controller(EmailController::class)->group(function () {

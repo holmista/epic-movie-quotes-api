@@ -29,13 +29,13 @@ class GoogleAuthController extends Controller
 			'email_verified_at' => now(),
 		]);
 		$payload = [
-			'exp' => Carbon::now()->addSeconds(30)->timestamp,
+			'exp' => Carbon::now()->addMinutes(60)->timestamp,
 			'uid' => $user->id,
 		];
 
 		$jwt = JWT::encode($payload, config('auth.jwt_secret'), 'HS256');
 
-		$cookie = cookie('access_token', $jwt, 30, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
+		$cookie = cookie('access_token', $jwt, 60, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
 
 		return response()->json('success', 200)->withCookie($cookie);
 	}
