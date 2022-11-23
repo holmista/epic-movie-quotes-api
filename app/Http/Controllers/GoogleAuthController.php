@@ -27,6 +27,7 @@ class GoogleAuthController extends Controller
 			'email'             => $googleUser->email,
 			'password'          => bcrypt($googleUser->password),
 			'email_verified_at' => now(),
+			'avatar'            => 'avatars/defaultAvatar.png',
 		]);
 		$payload = [
 			'exp' => Carbon::now()->addMinutes(60)->timestamp,
