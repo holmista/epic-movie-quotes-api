@@ -79,7 +79,8 @@ class AuthController extends Controller
 
 	public function signout(): JsonResponse
 	{
-		auth()->logout(true);
-		return response()->json(['message' => 'Successfully signed out']);
+		$cookie = cookie('access_token', '', 0, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
+
+		return response()->json(['message'=>'success'], 200)->withCookie($cookie);
 	}
 }
