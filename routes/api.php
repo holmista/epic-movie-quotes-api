@@ -26,7 +26,7 @@ use App\Http\Controllers\CategoryController;
 */
 Route::controller(AuthController::class)->group(function () {
 	Route::post('/signup', 'signup');
-	Route::post('/signin', 'signin')->middleware('verified');
+	Route::post('/signin', 'signin');
 	Route::get('/email/verify/{id}/{hash}', 'sendEmailVerificationEmail')->middleware('signed')->name('verification.verify');
 	Route::post('/email/verification-notification', 'resendVerificationEmail')->middleware(['throttle:6,1']);
 });
@@ -41,7 +41,7 @@ Route::controller(GoogleAuthController::class)->group(function () {
 	Route::get('/auth/callback', [GoogleAuthController::class, 'authenticate']);
 });
 
-Route::middleware(['jwt.auth', 'verified'])->group(function () {
+Route::middleware(['jwt.auth'])->group(function () {
 	Route::get('/signout', [AuthController::class, 'signout']);
 
 	Route::controller(EmailController::class)->group(function () {

@@ -65,6 +65,11 @@ class AuthController extends Controller
 			return response()->json(['message'=>'invalid credentials'], 401);
 		}
 
+		if (!$authenticated->email_verified_at)
+		{
+			return response()->json(['email'=>'email not verified'], 422);
+		}
+
 		$payload = [
 			'exp' => Carbon::now()->addMinutes(60)->timestamp,
 			'uid' => $authenticated->id,
