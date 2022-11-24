@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\App;
 
 class PasswordResetController extends Controller
 {
 	public function sendPasswordResetEmail(PasswordForgotRequest $request): JsonResponse
 	{
+		App::setLocale($request->locale);
 		$status = Password::sendResetLink(
 			$request->only('email')
 		);

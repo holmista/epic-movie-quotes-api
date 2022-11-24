@@ -37,24 +37,24 @@
             </div>
             <br>
             <p>
-                Please click the button below to reset your password:
+                {{ __('texts.please_click_button') }}
             </p>
             <br>
             <a href="{{ $url }}" class="button">
                 <p class="verify_email"
                     style="padding-top: 1rem; padding-bottom: 1rem; font-size: 16px; border-radius: 4px;
                         color: white; text-align: center;  text-decoration: none; background-color: #E31221; width: 150px;">
-                    Reset Password
+                    {{ __('texts.reset_password') }}
                 </p>
             </a>
             <br>
-            <p>If clicking doesn't work, you can try copying and pasting it to your browser:</p>
+            <p>{{ __('texts.copy_paste') }}</p>
             <br>
             <p style="color: #DDCCAA">{{ $url }}</p>
             <br>
-            <p>If you have any problems, please contact us: support@moviequotes.ge</p>
+            <p>{{ __('texts.have_problems') }}</p>
             <br>
-            <p>MovieQuotes Crew</p>
+            <p>{{ __('texts.movie_quotes_crew') }}</p>
         </div>
     </div>
 </body>
