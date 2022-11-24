@@ -37,29 +37,28 @@
             </div>
             <br>
             <p style="margin-top: 73px">
-                Hola {{ $name }}!
+                {{ __('texts.hello') }} {{ $name }}!
             </p>
             <br>
             <p>
-                Thanks for joining Movie quotes! We really appreciate it. Please click the button below to verify your
-                account:
+                {{ __('texts.click_button') }}
             </p>
             <br>
             <a href="{{ $url }}" class="button">
                 <p class="verify_email"
                     style="padding-top: 1rem; padding-bottom: 1rem; font-size: 16px; border-radius: 4px;
                         color: white; text-align: center;  text-decoration: none; background-color: #E31221; width: 128px;">
-                    Verify account
+                    {{ __('texts.verify_account') }}
                 </p>
             </a>
             <br>
-            <p>If clicking doesn't work, you can try copying and pasting it to your browser:</p>
+            <p>{{ __('texts.copy_paste') }}</p>
             <br>
             <p style="color: #DDCCAA">{{ $url }}</p>
             <br>
-            <p>If you have any problems, please contact us: support@moviequotes.ge</p>
+            <p>{{ __('texts.have_problems') }}</p>
             <br>
-            <p>MovieQuotes Crew</p>
+            <p>{{ __('texts.movie_quotes_crew') }}</p>
         </div>
     </div>
 </body>

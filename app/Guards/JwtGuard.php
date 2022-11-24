@@ -11,6 +11,15 @@ class JwtGuard
 {
 	public static $user = null;
 
+	public function check()
+	{
+		if (!request()->cookie('access_token') && !request()->header('Authorization'))
+		{
+			return false;
+		}
+		return true;
+	}
+
 	public function attempt(array $credentials = []): bool | User
 	{
 		$emailUser = User::where('email', $credentials['email'])->first();
