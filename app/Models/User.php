@@ -10,10 +10,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use App\Notifications\CustomPasswordResetNotification;
 
-class User extends Authenticatable implements MustVerifyEmail, JWTSubject
+class User extends Authenticatable implements MustVerifyEmail
 {
 	use HasApiTokens;
 
@@ -32,6 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 		'password',
 		'google_id',
 		'email_verified_at',
+		'avatar',
 	];
 
 	/**
@@ -62,16 +62,6 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 	{
 		$url = env('BACK_BASE_URL') . '/reset-password/' . $token;
 		$this->notify(new CustomPasswordResetNotification($url));
-	}
-
-	public function getJWTIdentifier()
-	{
-		return $this->getKey();
-	}
-
-	public function getJWTCustomClaims()
-	{
-		return [];
 	}
 
 	public function emails()

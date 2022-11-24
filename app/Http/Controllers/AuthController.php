@@ -9,6 +9,8 @@ use App\Http\Requests\CustomEmailVerificationRequest;
 use App\Http\Requests\ResendEmailVerificationRequest;
 use App\Http\Requests\StoreSigninRequest;
 use Illuminate\Http\JsonResponse;
+use Firebase\JWT\JWT;
+use Illuminate\Support\Carbon;
 
 class AuthController extends Controller
 {
@@ -18,6 +20,7 @@ class AuthController extends Controller
 			'name'     => $request->name,
 			'email'    => $request->email,
 			'password' => bcrypt($request->password),
+			'avatar'   => 'avatars/defaultAvatar.png',
 		]);
 		event(new Registered($user));
 		return response()->json([
@@ -51,50 +54,39 @@ class AuthController extends Controller
 
 	public function signin(StoreSigninRequest $request): JsonResponse
 	{
-		$authBy = null;
-		$userEmail = User::where('email', $request->email)->first();
-		if ($userEmail)
+		$authenticated = auth()->attempt(
+			[
+				'email'    => request()->email,
+				'password' => request()->password,
+			]
+		);
+
+		if (!$authenticated)
 		{
-			$authBy = 'email';
+			return response()->json(['message'=>'invalid credentials'], 401);
 		}
-		$userName = User::where('name', $request->email)->first();
-		if ($userName)
+
+		if (!$authenticated->email_verified_at)
 		{
-			$authBy = 'name';
+			return response()->json(['email'=>'email not verified'], 422);
 		}
-		$user = $userEmail ?? $userName;
-		if (!$user)
-		{
-			return response()->json([
-				'message' => 'Invalid credentials',
-			], 401);
-		}
-		if (!$user->email_verified_at)
-		{
-			return response()->json([
-				'message' => 'Email not verified',
-			], 401);
-		}
-		$accessToken = auth()->attempt([
-			$authBy    => $request->email,
-			'password' => $request->password,
-		]);
-		if (!$accessToken)
-		{
-			return response()->json([
-				'message' => 'Invalid credentials',
-			], 401);
-		}
-		return response()->json([
-			'access_token' => $accessToken,
-			'token_type'   => 'bearer',
-			'expires_in'   => auth()->factory()->getTTL() * 60,
-		]);
+
+		$payload = [
+			'exp' => Carbon::now()->addMinutes(60)->timestamp,
+			'uid' => $authenticated->id,
+		];
+
+		$jwt = JWT::encode($payload, config('auth.jwt_secret'), 'HS256');
+
+		$cookie = cookie('access_token', $jwt, 60, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
+
+		return response()->json(['message'=>'success'], 200)->withCookie($cookie);
 	}
 
 	public function signout(): JsonResponse
 	{
-		auth()->logout(true);
-		return response()->json(['message' => 'Successfully signed out']);
+		$cookie = cookie('access_token', '', 0, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
+
+		return response()->json(['message'=>'success'], 200)->withCookie($cookie);
 	}
 }

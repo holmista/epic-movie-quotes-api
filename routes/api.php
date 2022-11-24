@@ -24,7 +24,6 @@ use App\Http\Controllers\CategoryController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::controller(AuthController::class)->group(function () {
 	Route::post('/signup', 'signup');
 	Route::post('/signin', 'signin');
@@ -42,7 +41,7 @@ Route::controller(GoogleAuthController::class)->group(function () {
 	Route::get('/auth/callback', [GoogleAuthController::class, 'authenticate']);
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['jwt.auth'])->group(function () {
 	Route::get('/signout', [AuthController::class, 'signout']);
 
 	Route::controller(EmailController::class)->group(function () {
