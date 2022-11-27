@@ -11,6 +11,7 @@ use App\Http\Requests\StoreSigninRequest;
 use Illuminate\Http\JsonResponse;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 
 class AuthController extends Controller
 {
@@ -22,6 +23,7 @@ class AuthController extends Controller
 			'password' => bcrypt($request->password),
 			'avatar'   => 'avatars/defaultAvatar.png',
 		]);
+		App::setLocale($request->locale);
 		event(new Registered($user));
 		return response()->json([
 			'message' => 'Verification email sent',
