@@ -13,6 +13,6 @@ class CommentController extends Controller
 		$data = $request->validated();
 		$data['user_id'] = auth()->user()->id;
 		$comment = Comment::create($data);
-		return response()->json(['comment'=>$comment], 201);
+		return response()->json(['comment'=>$comment->load('user')], 201);
 	}
 }

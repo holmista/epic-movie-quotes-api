@@ -57,10 +57,13 @@ Route::middleware(['jwt.auth'])->group(function () {
 });
 
 Route::get('/movies/{movie}/quotes', [MovieController::class, 'movieQuotes']);
+Route::get('/movies/{movie}', [MovieController::class, 'getMovie']);
 Route::get('/movies', [MovieController::class, 'myMovies']);
 Route::post('/movies', [MovieController::class, 'create']);
+Route::patch('/movies/{movie}', [MovieController::class, 'update']);
+Route::delete('/movies/{movie}', [MovieController::class, 'delete']);
 
-Route::get('/quote/{id}', [QuoteController::class, 'get']);
+Route::get('/quote/{quote}', [QuoteController::class, 'get']);
 Route::post('/quote', [QuoteController::class, 'create']);
 Route::patch('/quote/{quote}', [QuoteController::class, 'update']);
 Route::delete('/quote/{quote}', [QuoteController::class, 'delete']);

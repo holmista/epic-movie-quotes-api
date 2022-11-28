@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Quote;
 
 class DeleteQuoteRequest extends FormRequest
 {
@@ -16,7 +15,7 @@ class DeleteQuoteRequest extends FormRequest
 	{
 		try
 		{
-			$quote_user_id = Quote::find(request()->quote->id)->user_id;
+			$quote_user_id = request()->quote->user_id;
 			return auth()->user()->id === $quote_user_id;
 		}
 		catch(\Exception $e)
