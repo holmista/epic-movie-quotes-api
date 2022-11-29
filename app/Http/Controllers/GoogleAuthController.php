@@ -38,6 +38,6 @@ class GoogleAuthController extends Controller
 
 		$cookie = cookie('access_token', $jwt, 60, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
 
-		return response()->json('success', 200)->withCookie($cookie);
+		return response()->json(['name'=>$user->name, 'id'=>$user->id], 200)->withCookie($cookie);
 	}
 }
