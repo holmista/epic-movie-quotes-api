@@ -63,6 +63,7 @@ Route::post('/movies', [MovieController::class, 'create']);
 Route::patch('/movies/{movie}', [MovieController::class, 'update']);
 Route::delete('/movies/{movie}', [MovieController::class, 'delete']);
 
+Route::get('/quote', [QuoteController::class, 'getAll']);
 Route::get('/quote/{quote}', [QuoteController::class, 'get']);
 Route::post('/quote', [QuoteController::class, 'create']);
 Route::patch('/quote/{quote}', [QuoteController::class, 'update']);
@@ -71,6 +72,6 @@ Route::delete('/quote/{quote}', [QuoteController::class, 'delete']);
 Route::post('/comment', [CommentController::class, 'create']);
 
 Route::post('/like', [LikeController::class, 'create']);
-Route::delete('/like/{id}', [LikeController::class, 'delete']);
+Route::delete('/like/{like}', [LikeController::class, 'delete']);
 
 Route::get('/category', [CategoryController::class, 'get']);
