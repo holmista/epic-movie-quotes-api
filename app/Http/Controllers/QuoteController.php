@@ -51,7 +51,7 @@ class QuoteController extends Controller
 
 	public function getAll(): JsonResponse
 	{
-		$quotes = Quote::with('comments.user', 'likes', 'user', 'movie')->withCount('comments', 'likes')->orderBy('created_at', 'desc')->get();
+		$quotes = Quote::with('comments.user', 'likes', 'user', 'movie')->withCount('comments', 'likes')->orderBy('created_at', 'desc')->paginate(5);
 		return response()->json(['quotes'=>$quotes]);
 	}
 }
