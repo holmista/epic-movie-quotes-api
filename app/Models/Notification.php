@@ -9,6 +9,8 @@ class Notification extends Model
 {
 	use HasFactory;
 
+	public $guarded = [];
+
 	public function receiver()
 	{
 		return $this->belongsTo(User::class, 'receiver_id');
