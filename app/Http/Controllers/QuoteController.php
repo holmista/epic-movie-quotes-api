@@ -7,6 +7,7 @@ use App\Models\Quote;
 use App\Http\Requests\UpdateQuoteRequest;
 use App\Http\Requests\DeleteQuoteRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class QuoteController extends Controller
@@ -52,6 +53,7 @@ class QuoteController extends Controller
 	public function getAll(): JsonResponse
 	{
 		$quotes = Quote::with('comments.user', 'likes', 'user', 'movie')->withCount('comments', 'likes')->orderBy('created_at', 'desc')->paginate(5);
+		Log::info($quotes[0]->likes);
 		return response()->json(['quotes'=>$quotes]);
 	}
 }

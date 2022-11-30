@@ -11,6 +11,7 @@ use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NotificationController;
 
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -75,3 +76,7 @@ Route::post('/like', [LikeController::class, 'create']);
 Route::delete('/like/{like}', [LikeController::class, 'delete']);
 
 Route::get('/category', [CategoryController::class, 'get']);
+
+Route::get('/notification', [NotificationController::class, 'index']);
+Route::patch('/notification/read-all', [NotificationController::class, 'readAll']);
+Route::patch('/notification/{notification}', [NotificationController::class, 'update']);

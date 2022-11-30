@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class DeleteLikeRequest extends FormRequest
 {
@@ -15,7 +16,8 @@ class DeleteLikeRequest extends FormRequest
 	{
 		try
 		{
-			return request()->user()->id === request()->like->user_id;
+			Log::info('user id - ' . request()->user()->id . 'like user id - ' . request()->like->user_id);
+			return request()->user()->id == request()->like->user_id;
 		}
 		catch(\Exception $e)
 		{
