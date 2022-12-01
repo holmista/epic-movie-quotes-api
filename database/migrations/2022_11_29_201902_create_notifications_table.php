@@ -12,11 +12,13 @@ return new class extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('likes', function (Blueprint $table) {
+		Schema::create('notifications', function (Blueprint $table) {
 			$table->id();
-			$table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+			$table->foreignId('receiver_id')->constrained('users')->onDelete('cascade');
+			$table->foreignId('trigerer_id')->constrained('users')->onDelete('cascade');
 			$table->foreignId('quote_id')->constrained('quotes')->onDelete('cascade');
-			$table->unique(['user_id', 'quote_id']);
+			$table->tinyInteger('type');
+			$table->boolean('is_read');
 			$table->timestamps();
 		});
 	}
@@ -28,6 +30,6 @@ return new class extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('likes');
+		Schema::dropIfExists('notifications');
 	}
 };

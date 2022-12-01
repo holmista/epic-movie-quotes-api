@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCommentRequest;
 use App\Models\Comment;
 use Illuminate\Http\JsonResponse;
+use App\Models\Notification;
 
 class CommentController extends Controller
 {
@@ -13,6 +14,16 @@ class CommentController extends Controller
 		$data = $request->validated();
 		$data['user_id'] = auth()->user()->id;
 		$comment = Comment::create($data);
-		return response()->json(['comment'=>$comment], 201);
+		if ($comment->quote->user_id !== $data['user_id'])
+		{
+			Notification::create([
+				'receiver_id' => $comment->quote->user_id,
+				'trigerer_id' => $data['user_id'],
+				'quote_id'    => $data['quote_id'],
+				'type'        => 0,
+				'is_read'     => false,
+			]);
+		}
+		return response()->json(['comment'=>$comment->load('user')], 201);
 	}
 }

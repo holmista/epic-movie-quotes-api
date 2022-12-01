@@ -36,6 +36,7 @@ class UserController extends Controller
 		$emails = User::find(auth()->user()->id)->emails()->get();
 		$user = auth()->user();
 		return response()->json([
+			'id'               => $user->id,
 			'name'             => $user->name,
 			'email'            => $user->email,
 			'google_id'        => $user->google_id,

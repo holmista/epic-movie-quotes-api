@@ -11,6 +11,7 @@ use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NotificationController;
 
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -57,10 +58,14 @@ Route::middleware(['jwt.auth'])->group(function () {
 });
 
 Route::get('/movies/{movie}/quotes', [MovieController::class, 'movieQuotes']);
+Route::get('/movies/{movie}', [MovieController::class, 'getMovie']);
 Route::get('/movies', [MovieController::class, 'myMovies']);
 Route::post('/movies', [MovieController::class, 'create']);
+Route::patch('/movies/{movie}', [MovieController::class, 'update']);
+Route::delete('/movies/{movie}', [MovieController::class, 'delete']);
 
-Route::get('/quote/{id}', [QuoteController::class, 'get']);
+Route::get('/quote', [QuoteController::class, 'getAll']);
+Route::get('/quote/{quote}', [QuoteController::class, 'get']);
 Route::post('/quote', [QuoteController::class, 'create']);
 Route::patch('/quote/{quote}', [QuoteController::class, 'update']);
 Route::delete('/quote/{quote}', [QuoteController::class, 'delete']);
@@ -68,6 +73,10 @@ Route::delete('/quote/{quote}', [QuoteController::class, 'delete']);
 Route::post('/comment', [CommentController::class, 'create']);
 
 Route::post('/like', [LikeController::class, 'create']);
-Route::delete('/like/{id}', [LikeController::class, 'delete']);
+Route::delete('/like/{like}', [LikeController::class, 'delete']);
 
 Route::get('/category', [CategoryController::class, 'get']);
+
+Route::get('/notification', [NotificationController::class, 'index']);
+Route::patch('/notification/read-all', [NotificationController::class, 'readAll']);
+Route::patch('/notification/{notification}', [NotificationController::class, 'update']);

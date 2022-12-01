@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
-class DeleteQuoteRequest extends FormRequest
+class DeleteLikeRequest extends FormRequest
 {
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -15,8 +16,8 @@ class DeleteQuoteRequest extends FormRequest
 	{
 		try
 		{
-			$quote_user_id = request()->quote->user_id;
-			return auth()->user()->id === $quote_user_id;
+			Log::info('user id - ' . request()->user()->id . 'like user id - ' . request()->like->user_id);
+			return request()->user()->id == request()->like->user_id;
 		}
 		catch(\Exception $e)
 		{

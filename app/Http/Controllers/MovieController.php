@@ -6,11 +6,12 @@ use App\Models\Movie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreMovieRequest;
-use Illuminate\Support\Facades\Log;
+use App\Http\Requests\UpdateMovieRequest;
+use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
-	public function myMovies(): JsonResponse
+	public function myMovies(Movie $movie): JsonResponse
 	{
 		$user = auth()->user();
 		$movies = $user->movies()->with('quotes')->get();
@@ -21,21 +22,25 @@ class MovieController extends Controller
 		return response()->json(['movies'=>$movies], 200);
 	}
 
+	public function getMovie(Movie $movie): JsonResponse
+	{
+		$movie->avatar = env('BACK_STORAGE_URL') . '/' . $movie->avatar;
+		return response()->json(['movie'=>$movie->load('categories', 'user')]);
+	}
+
 	public function create(StoreMovieRequest $request): JsonResponse
 	{
 		$data = $request->validated();
 		$data['user_id'] = auth()->user()->id;
 		$data['title'] = json_decode($data['title'], true);
 		$data['description'] = json_decode($data['description'], true);
-		//$data['director'] = json_decode($data['director'], true);
+		$data['director'] = json_decode($data['director'], true);
 		$categories = explode(',', $data['categories']);
 		unset($data['categories']);
 		$path = $data['avatar']->store('avatars');
 		$data['avatar'] = $path;
 		$movie = null;
-		//Log::info($categories);
 		DB::transaction(function () use ($data, $categories, &$movie) {
-			Log::info($data);
 			$movie = Movie::create($data);
 			$movie->categories()->attach($categories);
 		});
@@ -43,8 +48,40 @@ class MovieController extends Controller
 		return response()->json(['movie'=>$movie], 201);
 	}
 
+	public function update(UpdateMovieRequest $request, Movie $movie)
+	{
+		$data = $request->validated();
+		Storage::delete($movie->avatar);
+		$data['user_id'] = auth()->user()->id;
+		$data['title'] = json_decode($data['title'], true);
+		$data['description'] = json_decode($data['description'], true);
+		$categories = explode(',', $data['categories']);
+		unset($data['categories']);
+		$path = $data['avatar']->store('avatars');
+		$data['avatar'] = $path;
+		DB::transaction(function () use ($data, $categories, &$movie) {
+			Movie::where('id', $movie->id)->update($data);
+			$movie->categories()->detach();
+			$movie->categories()->attach($categories);
+		});
+		$updatedMovie = Movie::find($movie->id);
+		return response()->json(['movie'=>$updatedMovie->load('categories')]);
+		// return response()->json(['message'=>'Not implemented yet.'], 501);
+	}
+
+	public function delete(Movie $movie): JsonResponse
+	{
+		$movie->delete();
+		return response()->json(['message'=>'Movie deleted successfully.'], 204);
+	}
+
 	public function movieQuotes(Movie $movie): JsonResponse
 	{
-		return response()->json(['quotes'=>$movie->quotes()->get()]);
+		$movie->avatar = env('BACK_STORAGE_URL') . '/' . $movie->avatar;
+		foreach ($movie->quotes as $quote)
+		{
+			$quote->avatar = env('BACK_STORAGE_URL') . '/' . $quote->avatar;
+		}
+		return response()->json(['movie'=>$movie, 'quotes'=>$movie->quotes()->withCount('comments', 'likes')->get()]);
 	}
 }

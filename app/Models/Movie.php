@@ -14,6 +14,7 @@ class Movie extends Model
 	protected $casts = [
 		'title'       => 'array',
 		'description' => 'array',
+		'director'    => 'array',
 	];
 
 	public function quotes()
