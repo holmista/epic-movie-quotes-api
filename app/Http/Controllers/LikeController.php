@@ -27,7 +27,7 @@ class LikeController extends Controller
 				'type'        => 1,
 				'is_read'     => false,
 			]);
-			NotificationCreated::dispatch($notification->load('trigerer'));
+			event((new NotificationCreated($notification->load('trigerer')))->dontBroadcastToCurrentUser());
 		}
 		return response()->json(['like' => $like], 201);
 	}

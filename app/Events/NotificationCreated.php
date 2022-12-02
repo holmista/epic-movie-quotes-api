@@ -32,7 +32,7 @@ class NotificationCreated implements ShouldBroadcast
 	 */
 	public function broadcastOn()
 	{
-		return new Channel('notifications');
-		// return new PrivateChannel('channel-name');
+		// return new Channel('notifications');
+		return new PrivateChannel('notifications.' . $this->notification->receiver_id);
 	}
 }
