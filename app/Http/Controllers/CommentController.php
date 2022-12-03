@@ -24,7 +24,7 @@ class CommentController extends Controller
 				'type'        => 0,
 				'is_read'     => false,
 			]);
-			NotificationCreated::dispatch($notification->load('trigerer'));
+			event((new NotificationCreated($notification->load('trigerer')))->dontBroadcastToCurrentUser());
 		}
 		return response()->json(['comment'=>$comment->load('user')], 201);
 	}
