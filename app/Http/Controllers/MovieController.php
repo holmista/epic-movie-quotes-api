@@ -15,16 +15,11 @@ class MovieController extends Controller
 	{
 		$user = auth()->user();
 		$movies = $user->movies()->with('quotes')->get();
-		foreach ($movies as $movie)
-		{
-			$movie->avatar = env('BACK_STORAGE_URL') . '/' . $movie->avatar;
-		}
 		return response()->json(['movies'=>$movies], 200);
 	}
 
 	public function getMovie(Movie $movie): JsonResponse
 	{
-		$movie->avatar = env('BACK_STORAGE_URL') . '/' . $movie->avatar;
 		return response()->json(['movie'=>$movie->load('categories', 'user')]);
 	}
 
@@ -38,13 +33,12 @@ class MovieController extends Controller
 		$categories = explode(',', $data['categories']);
 		unset($data['categories']);
 		$path = $data['avatar']->store('avatars');
-		$data['avatar'] = $path;
+		$data['avatar'] = env('BACK_STORAGE_URL') . '/' . $path;
 		$movie = null;
 		DB::transaction(function () use ($data, $categories, &$movie) {
 			$movie = Movie::create($data);
 			$movie->categories()->attach($categories);
 		});
-		$movie->avatar = env('BACK_STORAGE_URL') . '/' . $movie->avatar;
 		return response()->json(['movie'=>$movie], 201);
 	}
 
@@ -58,7 +52,7 @@ class MovieController extends Controller
 		$categories = explode(',', $data['categories']);
 		unset($data['categories']);
 		$path = $data['avatar']->store('avatars');
-		$data['avatar'] = $path;
+		$data['avatar'] = env('BACK_STORAGE_URL') . '/' . $path;
 		DB::transaction(function () use ($data, $categories, &$movie) {
 			Movie::where('id', $movie->id)->update($data);
 			$movie->categories()->detach();
@@ -77,11 +71,6 @@ class MovieController extends Controller
 
 	public function movieQuotes(Movie $movie): JsonResponse
 	{
-		$movie->avatar = env('BACK_STORAGE_URL') . '/' . $movie->avatar;
-		foreach ($movie->quotes as $quote)
-		{
-			$quote->avatar = env('BACK_STORAGE_URL') . '/' . $quote->avatar;
-		}
 		return response()->json(['movie'=>$movie, 'quotes'=>$movie->quotes()->withCount('comments', 'likes')->get()]);
 	}
 }

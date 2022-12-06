@@ -24,7 +24,7 @@ class MovieFactory extends Factory
 			'avatar'       => 'avatars/yXbp0TfRX8Hms0z6M0PPWdVfY4QcNUJRji4gwM0W.png',
 			'release_year' => fake()->year(),
 			'budget'       => fake()->numberBetween(1000000, 100000000),
-			'director'     => fake()->name(),
+			'director'     => ['en' => fake()->name, 'ka'=> $faker->name],
 		];
 	}
 }
