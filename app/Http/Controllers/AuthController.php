@@ -21,7 +21,7 @@ class AuthController extends Controller
 			'name'     => $request->name,
 			'email'    => $request->email,
 			'password' => bcrypt($request->password),
-			'avatar'   => 'avatars/defaultAvatar.png',
+			'avatar'   => env('BACK_STORAGE_URL') . '/' . 'avatars/defaultAvatar.png',
 		]);
 		App::setLocale($request->locale);
 		event(new Registered($user));
