@@ -6,6 +6,8 @@ use App\Models\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Email;
+use Illuminate\Support\Facades\Log;
 
 class JwtGuard
 {
@@ -20,16 +22,17 @@ class JwtGuard
 		return true;
 	}
 
-	public function attempt(array $credentials = []): bool | User
+	public function attempt(array $credentials = []): bool | User | Email
 	{
-		$emailUser = User::where('email', $credentials['email'])->first();
+		$emailUser = User::where('email', $credentials['email'])->first() ?? Email::where('email', $credentials['email'])->with('user')->first();
 		$nameUser = User::where('name', $credentials['email'])->first();
 		$user = $emailUser ?? $nameUser;
+		Log::info('emailuser: ' . $emailUser . ' nameuser: ' . $nameUser);
 		if (!$user)
 		{
 			return false;
 		}
-		if (Hash::check($credentials['password'], $user->password))
+		if (Hash::check($credentials['password'], $user->password ?? $user->user->password))
 		{
 			return $user;
 		}
