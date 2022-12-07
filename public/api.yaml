@@ -38,8 +38,10 @@ servers:
 paths:
   /signup:
     $ref: "./_swagger/paths/auth.yaml#/paths/~1signup"
-  # /user:
-  # $ref: "./_swagger/paths/auth.yaml#/paths/~1user"
+  /signin:
+    $ref: "./_swagger/paths/auth.yaml#/paths/~1signin"
+  /signout:
+    $ref: "./_swagger/paths/auth.yaml#/paths/~1signout"
 
   # /products:
   #   $ref: "./_swagger/paths/products.yaml#/paths/~1products"

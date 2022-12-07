@@ -45,3 +45,68 @@ paths:
                     example: Verification email sent
         "422":
           $ref: "../common.yaml#/components/responses/422"
+  /signin:
+    post:
+      tags:
+        - Auth
+      summary: log in a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: ganshika@gmail.com
+                password:
+                  type: string
+                  minLength: 8
+                  maxLength: 15
+                  example: password
+                remember_me:
+                  type: boolean
+                  example: true
+              required:
+                - email
+                - password
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ganshika
+                  id:
+                    type: integer
+                    example: 1
+
+        "422":
+          $ref: "../common.yaml#/components/responses/422"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+  /signout:
+    get:
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      summary: log out a user
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: success
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
