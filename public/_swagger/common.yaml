@@ -43,3 +43,5 @@ components:
       description: Not Found
     "422":
       description: Unprocessable Content
+    "403":
+      description: Forbidden
