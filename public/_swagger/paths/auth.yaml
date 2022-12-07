@@ -1,0 +1,47 @@
+paths:
+  /signup:
+    post:
+      tags:
+        - Auth
+      summary: register a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: ganshika
+                  minLength: 3
+                  maxLength: 15
+                email:
+                  type: string
+                  example: ganshika@gmail.com
+                password:
+                  minLength: 8
+                  maxLength: 15
+                  example: password
+                confirmPassword:
+                  minLength: 8
+                  maxLength: 15
+                  example: password
+              required:
+                - name
+                - email
+                - password
+                - confirmPassword
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Verification email sent
+        "422":
+          $ref: "../common.yaml#/components/responses/422"

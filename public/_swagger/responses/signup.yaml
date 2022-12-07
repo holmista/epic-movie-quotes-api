@@ -1,0 +1,35 @@
+components:
+  responses:
+    # product_with_categories_and_media:
+    #   "200":
+    #     description: OK
+    #     content:
+    #       application/json:
+    #         schema:
+    #           allOf:
+    #             - $ref: "../schemas/product.yaml#/components/schemas/Product"
+    #             - type: object
+    #               properties:
+    #                 categories:
+    #                   type: array
+    #                   items:
+    #                     type: string
+    #                     $ref: "../schemas/category.yaml#/components/schemas/Category"
+    #                 media:
+    #                   type: array
+    #                   items:
+    #                     type: string
+    #                     $ref: "../schemas/media.yaml#/components/schemas/Media"
+    signup:
+      "201":
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                allOf:
+                  - $ref: "../schemas/product.yaml#/components/schemas/Product"
+                  - type: object
+                    properties:
+                      message: string

@@ -1,0 +1,19 @@
+components:
+  schemas:
+    User:
+      allOf:
+        - type: object
+          properties:
+            name:
+              type: string
+              example: ganshika
+            email:
+              type: string
+              example: ganshika@gmail.com
+            password:
+              type: string
+              example: password-ganshika
+            repeat_password:
+              type: string
+              example: password-ganshika
+        - $ref: "../common.yaml#/components/schemas/TimeStamps"

@@ -1,0 +1,68 @@
+components:
+  schemas:
+    Movie:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            title:
+              allOf:
+                - type: object
+                  properties:
+                    en:
+                      type: string
+                      example: The Matrix
+                    ka:
+                      type: string
+                      example: მატრიცა
+            description:
+              allOf:
+                - type: object
+                  properties:
+                    en:
+                      type: string
+                      example: The Matrix is a good movie
+                    ka:
+                      type: string
+                      example: მატრიცა კარგი ფილმია
+            avatar:
+              type: string
+              example: http://127.0.0.1:8000/storage/avatars/7KVVO2e1j1YTuW8Ea7DdQOp7EgIhsBeecfKwipJQ.png
+            release_year:
+              type: integer
+              example: 1999
+            budget:
+              type: integer
+              example: 63000000
+            director:
+              allOf:
+                - type: object
+                  properties:
+                    en:
+                      type: string
+                      example: the wachowskies
+                    ka:
+                      type: string
+                      example: ვაჩოვსკიები
+            user_id:
+              type: integer
+              example: 1
+            categories:
+              type: array
+              items:
+                - type: object
+                  properties:
+                    id: integer
+                    example: 1
+                    name:
+                      type: object
+                      properties:
+                        en:
+                          type: string
+                          example: fantasy
+                        ka:
+                          type: string
+                          example: ფენტეზი
+        - $ref: "../common.yaml#/components/schemas/TimeStamps"
