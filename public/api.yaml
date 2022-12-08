@@ -48,6 +48,16 @@ paths:
     $ref: "./_swagger/paths/forgotPassword.yaml#/paths/~1forgot-password"
   /reset-password:
     $ref: "./_swagger/paths/forgotPassword.yaml#/paths/~1reset-password"
+  /email:
+    $ref: "./_swagger/paths/profile.yaml#/paths/~1email"
+  /delete-email:
+    $ref: "./_swagger/paths/profile.yaml#/paths/~1delete-email"
+  /make-primary-email:
+    $ref: "./_swagger/paths/profile.yaml#/paths/~1make-primary-email"
+  /user:
+    $ref: "./_swagger/paths/profile.yaml#/paths/~1user"
+  /user-update:
+    $ref: "./_swagger/paths/profile.yaml#/paths/~1user-update"
 
   # /products:
   #   $ref: "./_swagger/paths/products.yaml#/paths/~1products"

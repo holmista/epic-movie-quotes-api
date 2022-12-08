@@ -1,0 +1,253 @@
+paths:
+  /email:
+    post:
+      tags:
+        - Profile
+      security:
+        - bearerAuth: []
+      summary: add email to user profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: ganshika@gmail.com
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Verification email sent
+                  email:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        example: nosferatu@gmail.com
+                      user_id:
+                        type: string
+                        example: 1
+                      updated_at:
+                        type: string
+                        example: "2022-07-26T20:06:02.000000Z"
+                      created_at:
+                        type: string
+                        example: "2022-07-26T20:06:02.000000Z"
+                      id:
+                        type: string
+                        example: 1
+
+        "422":
+          $ref: "../common.yaml#/components/responses/422"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+  /delete-email:
+    delete:
+      tags:
+        - Profile
+      security:
+        - bearerAuth: []
+      summary: delete email from user profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: nosferatu@gmail.com
+      responses:
+        "204":
+          description: No Content
+        "404":
+          $ref: "../common.yaml#/components/responses/404"
+  /make-primary-email:
+    post:
+      tags:
+        - Profile
+      security:
+        - bearerAuth: []
+      summary: make email primary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: nosferatu@gmail.com
+      responses:
+        "403":
+          $ref: "../common.yaml#/components/responses/403"
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Email updated successfully
+                  new_primary_email:
+                    type: string
+                    example: nosferatu@gmail.com
+                  new_secondary_email:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        example: ganshika@gmail.com
+                      user_id:
+                        type: integer
+                        example: 1
+                      email_verified_at:
+                        type: string
+                        example: "2022-07-26T20:06:02.000000Z"
+                      updated_at:
+                        type: string
+                        example: "2022-07-26T20:06:02.000000Z"
+                      created_at:
+                        type: string
+                        example: "2022-07-26T20:06:02.000000Z"
+                      id:
+                        type: integer
+                        example: 1
+  /user:
+    get:
+      tags:
+        - Profile
+      security:
+        - bearerAuth: []
+      summary: get currently authenticated user information
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: ganshika
+                  email:
+                    type: string
+                    example: ganshika@gmail.com
+                  google_id:
+                    type: string
+                    example: null
+                  socondary_emails:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        email:
+                          type: string
+                          example: irvine@gmail.com
+                        email_verified_at:
+                          type: string
+                          example: "2022-07-26T20:06:02.000000Z"
+                        user_id:
+                          type: integer
+                          example: 2
+                        created_at:
+                          type: string
+                          example: "2022-07-26T20:06:02.000000Z"
+                        updated_at:
+                          type: string
+                          example: "2022-07-26T20:06:02.000000Z"
+                  avatar:
+                    type: string
+                    example: http://127.0.0.1:8000/storage/avatars/091GzO5M6KxuchosG0oLSkF1NGXVqhAoHWyDIhPL.jpg
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+  /user-update:
+    post:
+      tags:
+        - Profile
+      security:
+        - bearerAuth: []
+      summary: update user information
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: ganshika
+                avatar:
+                  type: string
+                password:
+                  type: string
+                  example: password
+                confirmPassword:
+                  type: string
+                  example: password
+            encoding:
+              avatar: # Property name (see above)
+                contentType: image/png, image/jpeg, image/jpg, image/svg
+      responses:
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "422":
+          $ref: "../common.yaml#/components/responses/422"
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User updated successfully
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: ganshika
+                      email:
+                        type: string
+                        example: ganshika@gmail.com
+                      email_verified_at:
+                        type: string
+                        example: "2022-07-26T20:06:02.000000Z"
+                      google_id:
+                        type: string
+                        example: null
+                      avatar:
+                        type: string
+                        example: http://127.0.0.1:8000/storage/avatars/091GzO5M6KxuchosG0oLSkF1NGXVqhAoHWyDIhPL.jpg
+                      created_at:
+                        type: string
+                        example: "2022-07-26T20:06:02.000000Z"
+                      updated_at:
+                        type: string
+                        example: "2022-07-26T20:06:02.000000Z"
