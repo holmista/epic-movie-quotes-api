@@ -20,15 +20,19 @@ class GoogleAuthController extends Controller
 	{
 		$googleUser = Socialite::driver('google')->stateless()->user();
 		$googleUser->password = strtolower(Str::random(15));
-		$user = User::updateOrCreate([
-			'google_id' => $googleUser->id,
-		], [
-			'name'              => $googleUser->name,
-			'email'             => $googleUser->email,
-			'password'          => bcrypt($googleUser->password),
-			'email_verified_at' => now(),
-			'avatar'            => 'avatars/defaultAvatar.png',
-		]);
+		$user = User::where('google_id', $googleUser->id)->first();
+		if (!$user)
+		{
+			$user = User::create([
+				'name'              => $googleUser->name,
+				'email'             => $googleUser->email,
+				'password'          => bcrypt($googleUser->password),
+				'email_verified_at' => now(),
+				'avatar'            => env('BACK_STORAGE_URL') . '/' . 'avatars/defaultAvatar.png',
+				'google_id'         => $googleUser->id,
+			]);
+		}
+
 		$payload = [
 			'exp' => Carbon::now()->addMinutes(60)->timestamp,
 			'uid' => $user->id,
