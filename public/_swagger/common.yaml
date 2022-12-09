@@ -45,3 +45,5 @@ components:
       description: Unprocessable Content
     "403":
       description: Forbidden
+    "204":
+      description: No Content

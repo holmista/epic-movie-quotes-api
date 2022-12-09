@@ -1,0 +1,115 @@
+paths:
+  /quote:
+    get:
+      tags:
+        - Quote
+      summary: get all quotes
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          $ref: "../responses/quote.yaml#/components/responses/quotes_news_feed/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+    post:
+      tags:
+        - Quote
+      security:
+        - bearerAuth: []
+      summary: create a quote
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  $ref: "../schemas/quote.yaml#/components/schemas/quoteTitle"
+                avatar:
+                  type: string
+                  format: binary
+                movie_id:
+                  type: integer
+                  example: 1
+      responses:
+        "201":
+          $ref: "../responses/quote.yaml#/components/responses/quote_created/201"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "422":
+          $ref: "../common.yaml#/components/responses/422"
+  /quote/{id}:
+    get:
+      tags:
+        - Quote
+      summary: get a quote
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "../responses/quote.yaml#/components/responses/quote/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "404":
+          $ref: "../common.yaml#/components/responses/404"
+    delete:
+      tags:
+        - Quote
+      security:
+        - bearerAuth: []
+      summary: delete a quote
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: quote id
+          schema:
+            type: integer
+      responses:
+        "204":
+          $ref: "../common.yaml#/components/responses/204"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "404":
+          $ref: "../common.yaml#/components/responses/404"
+  /quote/{id}?_method=patch:
+    post:
+      tags:
+        - Quote
+      security:
+        - bearerAuth: []
+      summary: update a quote
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: quote id
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  $ref: "../schemas/quote.yaml#/components/schemas/quoteTitle"
+                avatar:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          $ref: "../responses/quote.yaml#/components/responses/quote_created/201"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "404":
+          $ref: "../common.yaml#/components/responses/404"
+        "422":
+          $ref: "../common.yaml#/components/responses/422"
