@@ -74,14 +74,12 @@ paths:
     $ref: "./_swagger/paths/comment.yaml#/paths/~1comment"
   /like:
     $ref: "./_swagger/paths/like.yaml#/paths/~1like"
-
-  # /products:
-  #   $ref: "./_swagger/paths/products.yaml#/paths/~1products"
-  # /products/{id}:
-  #   $ref: "./_swagger/paths/products.yaml#/paths/~1products~1{id}"
-
-  # /categories:
-  # $ref: "./_swagger/paths/categories.yaml#/paths/~1categories"
+  /notification:
+    $ref: "./_swagger/paths/notification.yaml#/paths/~1notification"
+  /notification/read-all:
+    $ref: "./_swagger/paths/notification.yaml#/paths/~1notification~1read-all"
+  /notification/{id}:
+    $ref: "./_swagger/paths/notification.yaml#/paths/~1notification~1{id}"
 
 components:
   securitySchemes:

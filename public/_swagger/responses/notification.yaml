@@ -1,0 +1,9 @@
+components:
+  responses:
+    notification:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/notification.yaml#/components/schemas/notification"
