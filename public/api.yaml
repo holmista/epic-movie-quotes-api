@@ -58,6 +58,12 @@ paths:
     $ref: "./_swagger/paths/profile.yaml#/paths/~1user"
   /user-update:
     $ref: "./_swagger/paths/profile.yaml#/paths/~1user-update"
+  /movies:
+    $ref: "./_swagger/paths/movie.yaml#/paths/~1my-movies"
+  /movies/{id}:
+    $ref: "./_swagger/paths/movie.yaml#/paths/~1movies~1{id}"
+  /movies/{id}/quotes:
+    $ref: "./_swagger/paths/movie.yaml#/paths/~1movies~1{id}~1quotes"
 
   # /products:
   #   $ref: "./_swagger/paths/products.yaml#/paths/~1products"

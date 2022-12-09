@@ -1,0 +1,155 @@
+components:
+  responses:
+    movie_with_quotes:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                allOf:
+                  - type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      title:
+                        $ref: "../schemas/movie.yaml#/components/schemas/movieTitle"
+                      description:
+                        $ref: "../schemas/movie.yaml#/components/schemas/movieDescription"
+                      avatar:
+                        type: string
+                        example: http://127.0.0.1:8000/storage/avatars/YAHX0YJ9BL158TBKjiptKZSkFnIVYEYOjDY3piQn.jpg
+                      release_year:
+                        type: integer
+                        example: 1999
+                      budget:
+                        type: integer
+                        example: 63000000
+                      director:
+                        $ref: "../schemas/movie.yaml#/components/schemas/movieDirector"
+                      user_id:
+                        type: integer
+                        example: 1
+                      quotes:
+                        $ref: "../schemas/movie.yaml#/components/schemas/movieQuotes"
+                  - $ref: "../common.yaml#/components/schemas/TimeStamps"
+    movie_with_categories_and_user:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              allOf:
+                - type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    title:
+                      $ref: "../schemas/movie.yaml#/components/schemas/movieTitle"
+                    description:
+                      $ref: "../schemas/movie.yaml#/components/schemas/movieDescription"
+                    avatar:
+                      type: string
+                      example: http://127.0.0.1:8000/storage/avatars/YAHX0YJ9BL158TBKjiptKZSkFnIVYEYOjDY3piQn.jpg
+                    release_year:
+                      type: integer
+                      example: 1999
+                    budget:
+                      type: integer
+                      example: 63000000
+                    director:
+                      $ref: "../schemas/movie.yaml#/components/schemas/movieDirector"
+                    user_id:
+                      type: integer
+                      example: 1
+                    categories:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          name:
+                            type: object
+                            properties:
+                              en:
+                                type: string
+                                example: fantasy
+                              ka:
+                                type: string
+                                example: ფენტეზი
+
+                    user:
+                      type: string
+                      $ref: "../schemas/user.yaml#/components/schemas/User"
+                - $ref: "../common.yaml#/components/schemas/TimeStamps"
+    movie_with_quotes_seperated:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                movie:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    title:
+                      $ref: "../schemas/movie.yaml#/components/schemas/movieTitle"
+                    description:
+                      $ref: "../schemas/movie.yaml#/components/schemas/movieDescription"
+                    avatar:
+                      type: string
+                      example: http://127.0.0.1:8000/storage/avatars/YAHX0YJ9BL158TBKjiptKZSkFnIVYEYOjDY3piQn.jpg
+                    release_year:
+                      type: integer
+                      example: 1999
+                    budget:
+                      type: integer
+                      example: 63000000
+                    director:
+                      $ref: "../schemas/movie.yaml#/components/schemas/movieDirector"
+                    user_id:
+                      type: integer
+                      example: 1
+                    created_at:
+                      type: string
+                      example: "2022-07-26T20:06:02.000000Z"
+                    updated_at:
+                      type: string
+                      example: "2022-07-26T20:06:02.000000Z"
+                quotes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      title:
+                        $ref: "../schemas/quote.yaml#/components/schemas/quoteTitle"
+                      avatar:
+                        type: string
+                        example: http://127.0.0.1:8000/storage/avatars/YAHX0YJ9BL158TBKjiptKZSkFnIVYEYOjDY3piQn.jpg
+                      movie_id:
+                        type: integer
+                        example: 1
+                      created_at:
+                        type: string
+                        example: "2022-07-26T20:06:02.000000Z"
+                      updated_at:
+                        type: string
+                        example: "2022-07-26T20:06:02.000000Z"
+                      comments_count:
+                        type: integer
+                        example: 0
+                      likes_count:
+                        type: integer
+                        example: 0

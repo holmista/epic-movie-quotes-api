@@ -1,0 +1,11 @@
+components:
+  schemas:
+    quoteTitle:
+      type: object
+      properties:
+        en:
+          type: string
+          example: The Matrix
+        ka:
+          type: string
+          example: მატრიცა
