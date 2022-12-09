@@ -70,6 +70,8 @@ paths:
     $ref: "./_swagger/paths/quote.yaml#/paths/~1quote~1{id}"
   /quote/{id}?_method=patch:
     $ref: "./_swagger/paths/quote.yaml#/paths/~1quote~1{id}?_method=patch"
+  /comment:
+    $ref: "./_swagger/paths/comment.yaml#/paths/~1comment"
 
   # /products:
   #   $ref: "./_swagger/paths/products.yaml#/paths/~1products"
