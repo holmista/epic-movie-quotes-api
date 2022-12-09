@@ -1,0 +1,43 @@
+paths:
+  /like:
+    post:
+      tags:
+        - Like
+      security:
+        - bearerAuth: []
+      summary: create a like
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quote_id:
+                  type: integer
+                  example: 1
+      responses:
+        "201":
+          $ref: "../responses/like.yaml#/components/responses/like/201"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "422":
+          $ref: "../common.yaml#/components/responses/422"
+    delete:
+      tags:
+        - Like
+      security:
+        - bearerAuth: []
+      summary: delete a like
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+      responses:
+        "204":
+          $ref: "../common.yaml#/components/responses/204"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "404":
+          $ref: "../common.yaml#/components/responses/404"
