@@ -70,7 +70,7 @@ class MovieController extends Controller
 		return response()->json(['message'=>'Movie deleted successfully.'], 204);
 	}
 
-	public function movieQuotes(Movie $movie): JsonResponse
+	public function movieQuotes(DeleteMovieRequest $request, Movie $movie): JsonResponse
 	{
 		return response()->json(['movie'=>$movie, 'quotes'=>$movie->quotes()->withCount('comments', 'likes')->get()]);
 	}
