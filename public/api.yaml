@@ -32,13 +32,15 @@ info:
 servers:
   - url: http://localhost:8000/api
     description: local server
+  - url: http://localhost:8001/api
+    description: second local server
   - url: http://production-example:8000/api
     description: production server
 
 paths:
   /signup:
     $ref: "./_swagger/paths/auth.yaml#/paths/~1signup"
-  /signin:
+  /swagger-login:
     $ref: "./_swagger/paths/auth.yaml#/paths/~1signin"
   /signout:
     $ref: "./_swagger/paths/auth.yaml#/paths/~1signout"
@@ -50,14 +52,10 @@ paths:
     $ref: "./_swagger/paths/forgotPassword.yaml#/paths/~1reset-password"
   /email:
     $ref: "./_swagger/paths/profile.yaml#/paths/~1email"
-  /delete-email:
-    $ref: "./_swagger/paths/profile.yaml#/paths/~1delete-email"
-  /make-primary-email:
+  /email/primary:
     $ref: "./_swagger/paths/profile.yaml#/paths/~1make-primary-email"
   /user:
     $ref: "./_swagger/paths/profile.yaml#/paths/~1user"
-  /user-update:
-    $ref: "./_swagger/paths/profile.yaml#/paths/~1user-update"
   /movies:
     $ref: "./_swagger/paths/movie.yaml#/paths/~1my-movies"
   /movies/{id}:
@@ -87,10 +85,20 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
   schemas:
     User:
       allOf:
-        - $ref: "./_swagger/schemas/user.yaml#/components/schemas/User"
+        - $ref: "./_swagger/schemas/user.yaml#/components/schemas/user_info"
     Movie:
       allOf:
         - $ref: "./_swagger/schemas/movie.yaml#/components/schemas/Movie"
+    Quote:
+      allOf:
+        - $ref: "./_swagger/schemas/quote.yaml#/components/schemas/Quote"
+    Comment:
+      allOf:
+        - $ref: "./_swagger/schemas/comment.yaml#/components/schemas/comment"
+    Notification:
+      allOf:
+        - $ref: "./_swagger/schemas/notification.yaml#/components/schemas/notification"

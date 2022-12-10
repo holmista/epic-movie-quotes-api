@@ -19,3 +19,20 @@ components:
           $ref: "../schemas/user.yaml#/components/schemas/user_info"
       allOf:
         - $ref: "../common.yaml#/components/schemas/TimeStamps"
+    comment:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        body:
+          type: string
+          example: This is a comment
+        user_id:
+          type: integer
+          example: 1
+        quote_id:
+          type: integer
+          example: 1
+      allOf:
+        - $ref: "../common.yaml#/components/schemas/TimeStamps"

@@ -12,6 +12,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SwaggerController;
 
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -80,3 +81,5 @@ Route::get('/category', [CategoryController::class, 'get']);
 Route::get('/notification', [NotificationController::class, 'index']);
 Route::patch('/notification/read-all', [NotificationController::class, 'readAll']);
 Route::patch('/notification/{notification}', [NotificationController::class, 'update']);
+
+Route::post('/swagger-login', [SwaggerController::class, 'login'])->name('swagger_login');

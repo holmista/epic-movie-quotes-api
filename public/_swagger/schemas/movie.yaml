@@ -156,17 +156,18 @@ components:
             categories:
               type: array
               items:
-                - type: object
-                  properties:
-                    id: integer
+                type: object
+                properties:
+                  id:
+                    type: integer
                     example: 1
-                    name:
-                      type: object
-                      properties:
-                        en:
-                          type: string
-                          example: fantasy
-                        ka:
-                          type: string
-                          example: ფენტეზი
+                  name:
+                    type: object
+                    properties:
+                      en:
+                        type: string
+                        example: fantasy
+                      ka:
+                        type: string
+                        example: ფენტეზი
         - $ref: "../common.yaml#/components/schemas/TimeStamps"

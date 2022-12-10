@@ -9,3 +9,30 @@ components:
         ka:
           type: string
           example: მატრიცა
+    Quote:
+      type: object
+      properties:
+        title:
+          type: object
+          properties:
+            en:
+              type: string
+              example: The Matrix
+            ka:
+              type: string
+              example: მატრიცა
+        avatar:
+          type: string
+          example: https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png
+        user_id:
+          type: integer
+          example: 1
+        movie_id:
+          type: integer
+          example: 1
+        created_at:
+          type: string
+          example: "2022-07-26T20:06:02.000000Z"
+        updated_at:
+          type: string
+          example: "2022-07-26T20:06:02.000000Z"

@@ -50,6 +50,8 @@ paths:
       tags:
         - Auth
       summary: log in a user
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -85,7 +87,6 @@ paths:
                   id:
                     type: integer
                     example: 1
-
         "422":
           $ref: "../common.yaml#/components/responses/422"
         "401":

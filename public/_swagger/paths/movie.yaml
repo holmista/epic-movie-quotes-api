@@ -98,7 +98,7 @@ paths:
           $ref: "../common.yaml#/components/responses/401"
         "404":
           $ref: "../common.yaml#/components/responses/404"
-    patch:
+    post:
       tags:
         - Movie
       security:
@@ -107,6 +107,11 @@ paths:
       parameters:
         - in: path
           name: id
+        - in: query
+          name: _method
+          schema:
+            type: string
+            example: patch
       requestBody:
         required: true
         content:

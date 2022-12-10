@@ -50,7 +50,6 @@ paths:
           $ref: "../common.yaml#/components/responses/422"
         "401":
           $ref: "../common.yaml#/components/responses/401"
-  /delete-email:
     delete:
       tags:
         - Profile
@@ -181,7 +180,6 @@ paths:
                     example: http://127.0.0.1:8000/storage/avatars/091GzO5M6KxuchosG0oLSkF1NGXVqhAoHWyDIhPL.jpg
         "401":
           $ref: "../common.yaml#/components/responses/401"
-  /user-update:
     post:
       tags:
         - Profile
@@ -189,7 +187,7 @@ paths:
         - bearerAuth: []
       summary: update user information
       requestBody:
-        required: true
+        required: false
         content:
           multipart/form-data:
             schema:
@@ -197,17 +195,18 @@ paths:
               properties:
                 name:
                   type: string
-                  example: ganshika
+                  # example: ganshika
                 avatar:
                   type: string
+                  format: binary
                 password:
                   type: string
-                  example: password
+                  # example: password
                 confirmPassword:
                   type: string
-                  example: password
+                  # example: password
             encoding:
-              avatar: # Property name (see above)
+              avatar:
                 contentType: image/png, image/jpeg, image/jpg, image/svg
       responses:
         "401":

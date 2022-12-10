@@ -11,6 +11,18 @@ paths:
         - in: path
           name: hash
           required: true
+        - in: query
+          name: emailId
+          required: true
+          example: 1
+        - in: query
+          name: expires
+          required: true
+          example: 1670604938
+        - in: query
+          name: signature
+          required: true
+          example: 1bhggfty545bjbwaqhbj57
       responses:
         "200":
           description: OK
