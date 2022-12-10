@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
+use App\Http\Requests\DeleteMovieRequest;
 use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
@@ -63,7 +64,7 @@ class MovieController extends Controller
 		// return response()->json(['message'=>'Not implemented yet.'], 501);
 	}
 
-	public function delete(Movie $movie): JsonResponse
+	public function delete(DeleteMovieRequest $request, Movie $movie): JsonResponse
 	{
 		$movie->delete();
 		return response()->json(['message'=>'Movie deleted successfully.'], 204);
