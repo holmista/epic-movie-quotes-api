@@ -98,6 +98,12 @@ if you've completed getting started section, then migrating database if fairly s
 php artisan migrate
 ```
 
+fill the categories table with the seeder
+
+```sh
+php artisan db:seed --class=CategorySeeder
+```
+
 #
 
 ### Development
