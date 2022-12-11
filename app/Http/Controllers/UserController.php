@@ -20,11 +20,10 @@ class UserController extends Controller
 		if ($request->hasFile('avatar'))
 		{
 			$path = $credentials['avatar']->store('avatars');
-			$credentials['avatar'] = $path;
+			$credentials['avatar'] = env('BACK_STORAGE_URL') . '/' . $path;
 		}
 		User::where('id', $user->id)->update($credentials);
 		$updated_user = User::find($user->id);
-		$updated_user->avatar = env('BACK_STORAGE_URL') . '/' . $updated_user->avatar;
 		return response()->json([
 			'message'      => 'User updated successfully',
 			'user'         => $updated_user,
@@ -41,7 +40,7 @@ class UserController extends Controller
 			'email'            => $user->email,
 			'google_id'        => $user->google_id,
 			'socondary_emails' => $emails,
-			'avatar'           => env('BACK_STORAGE_URL') . '/' . $user->avatar,
+			'avatar'           => $user->avatar,
 		], 200);
 	}
 }
