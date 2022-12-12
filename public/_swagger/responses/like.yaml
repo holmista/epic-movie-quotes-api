@@ -1,0 +1,39 @@
+components:
+  responses:
+    like:
+      "201":
+        description: created
+        content:
+          application/json:
+            schema:
+              allOf:
+                - type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    quote_id:
+                      type: integer
+                      example: 1
+                    user_id:
+                      type: integer
+                      example: 1
+                    quote:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        title:
+                          $ref: "../schemas/quote.yaml#/components/schemas/quoteTitle"
+                        avatar:
+                          type: string
+                          example: https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50
+                        user_id:
+                          type: integer
+                          example: 1
+                        movie_id:
+                          type: integer
+                          example: 1
+                    user:
+                      $ref: "../schemas/user.yaml#/components/schemas/user_info"

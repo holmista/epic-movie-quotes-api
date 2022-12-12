@@ -48,7 +48,7 @@ class JwtAuth
 				'message' => 'access token is invalid',
 			], 401);
 		}
-
+		Log::info('decoded: ' . $decoded->exp);
 		if ($decoded->exp < Carbon::now()->timestamp)
 		{
 			return response()->json(['message'=>'access token has expired'], 401);

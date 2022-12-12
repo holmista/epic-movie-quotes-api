@@ -1,0 +1,25 @@
+components:
+  schemas:
+    notification:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        receiver_id:
+          type: integer
+          example: 1
+        trigerer_id:
+          type: integer
+          example: 2
+        type:
+          type: string
+          enum: [0, 1]
+          example: 0
+        is_read:
+          type: boolean
+          example: false
+        trigerer:
+          $ref: "../schemas/user.yaml#/components/schemas/user_info"
+      allOf:
+        - $ref: "../common.yaml#/components/schemas/TimeStamps"

@@ -12,6 +12,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SwaggerController;
 
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -55,28 +56,37 @@ Route::middleware(['jwt.auth'])->group(function () {
 		Route::post('/user', 'update');
 		Route::get('/user', 'me');
 	});
-});
 
-Route::get('/movies/{movie}/quotes', [MovieController::class, 'movieQuotes']);
-Route::get('/movies/{movie}', [MovieController::class, 'getMovie']);
-Route::get('/movies', [MovieController::class, 'myMovies']);
-Route::post('/movies', [MovieController::class, 'create']);
-Route::patch('/movies/{movie}', [MovieController::class, 'update']);
-Route::delete('/movies/{movie}', [MovieController::class, 'delete']);
+	Route::controller(MovieController::class)->group(function () {
+		Route::get('/movies/{movie}/quotes', 'movieQuotes');
+		Route::get('/movies/{movie}', 'getMovie');
+		Route::get('/movies', 'myMovies');
+		Route::post('/movies', 'create');
+		Route::patch('/movies/{movie}', 'update');
+		Route::delete('/movies/{movie}', 'delete');
+	});
 
-Route::get('/quote', [QuoteController::class, 'getAll']);
-Route::get('/quote/{quote}', [QuoteController::class, 'get']);
-Route::post('/quote', [QuoteController::class, 'create']);
-Route::patch('/quote/{quote}', [QuoteController::class, 'update']);
-Route::delete('/quote/{quote}', [QuoteController::class, 'delete']);
+	Route::controller(QuoteController::class)->group(function () {
+		Route::get('/quote', 'getAll');
+		Route::get('/quote/{quote}', 'get');
+		Route::post('/quote', 'create');
+		Route::patch('/quote/{quote}', 'update');
+		Route::delete('/quote/{quote}', 'delete');
+	});
 
-Route::post('/comment', [CommentController::class, 'create']);
+	Route::post('/comment', [CommentController::class, 'create']);
 
-Route::post('/like', [LikeController::class, 'create']);
-Route::delete('/like/{like}', [LikeController::class, 'delete']);
+	Route::controller(LikeController::class)->group(function () {
+		Route::post('/like', 'create');
+		Route::delete('/like/{like}', 'delete');
+	});
 
-Route::get('/category', [CategoryController::class, 'get']);
+	Route::get('/category', [CategoryController::class, 'get']);
 
-Route::get('/notification', [NotificationController::class, 'index']);
-Route::patch('/notification/read-all', [NotificationController::class, 'readAll']);
-Route::patch('/notification/{notification}', [NotificationController::class, 'update']);
+  Route::post('/swagger-login', [SwaggerController::class, 'login'])->name('swagger_login');
+  
+	Route::controller(NotificationController::class)->group(function () {
+		Route::get('/notification', 'index');
+		Route::patch('/notification/read-all', 'readAll');
+		Route::patch('/notification/{notification}', 'update');
+	});

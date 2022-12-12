@@ -1,0 +1,63 @@
+paths:
+  /comment:
+    post:
+      tags:
+        - Comment
+      security:
+        - bearerAuth: []
+      summary: create a comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                  example: This is a comment
+                quote_id:
+                  type: integer
+                  example: 1
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      body:
+                        type: string
+                        example: This is a comment
+                      user_id:
+                        type: integer
+                        example: 1
+                      quote:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          title:
+                            $ref: "../schemas/quote.yaml#/components/schemas/quoteTitle"
+                          avatar:
+                            type: string
+                            example: https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50
+                          user_id:
+                            type: integer
+                            example: 1
+                          movie_id:
+                            type: integer
+                            example: 1
+                      user:
+                        $ref: "../schemas/user.yaml#/components/schemas/user_info"
+                  - $ref: "../common.yaml#/components/schemas/TimeStamps"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "422":
+          $ref: "../common.yaml#/components/responses/422"
