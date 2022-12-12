@@ -21,7 +21,7 @@ class AuthController extends Controller
 			'name'     => $request->name,
 			'email'    => $request->email,
 			'password' => bcrypt($request->password),
-			'avatar'   => 'avatars/defaultAvatar.png',
+			'avatar'   => env('BACK_STORAGE_URL') . '/' . 'avatars/defaultAvatar.png',
 		]);
 		App::setLocale($request->locale);
 		event(new Registered($user));
@@ -74,13 +74,13 @@ class AuthController extends Controller
 		}
 
 		$payload = [
-			'exp' => Carbon::now()->addMinutes(60)->timestamp,
+			'exp' => request()->remember_me == 1 ? Carbon::now()->addMinutes(20160)->timestamp : Carbon::now()->addMinutes(60)->timestamp,
 			'uid' => $authenticated->id,
 		];
 
 		$jwt = JWT::encode($payload, config('auth.jwt_secret'), 'HS256');
 
-		$cookie = cookie('access_token', $jwt, 60, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
+		$cookie = cookie('access_token', $jwt, request()->remember_me == 1 ? 20160 : 60, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
 
 		return response()->json(['name'=>$authenticated->name, 'id'=>$authenticated->id], 200)->withCookie($cookie);
 	}
