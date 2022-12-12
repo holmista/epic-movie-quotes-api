@@ -24,7 +24,6 @@ class UserController extends Controller
 		}
 		User::where('id', $user->id)->update($credentials);
 		$updated_user = User::find($user->id);
-		$updated_user->avatar = $updated_user->avatar;
 		return response()->json([
 			'message'      => 'User updated successfully',
 			'user'         => $updated_user,
