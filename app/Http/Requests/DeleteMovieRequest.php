@@ -15,7 +15,7 @@ class DeleteMovieRequest extends FormRequest
 	{
 		try
 		{
-			return request()->user()->id == request()->movie->user_id;
+			return auth()->user()->id == request()->movie->user_id;
 		}
 		catch(\Exception $e)
 		{
