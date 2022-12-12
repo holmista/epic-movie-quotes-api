@@ -1,0 +1,38 @@
+paths:
+  /email/verify/{id}/{hash}:
+    get:
+      tags:
+        - Email
+      summary: verify an email
+      parameters:
+        - in: path
+          name: id
+          required: true
+        - in: path
+          name: hash
+          required: true
+        - in: query
+          name: emailId
+          required: true
+          example: 1
+        - in: query
+          name: expires
+          required: true
+          example: 1670604938
+        - in: query
+          name: signature
+          required: true
+          example: 1bhggfty545bjbwaqhbj57
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Email verified successfully
+        "403":
+          $ref: "../common.yaml#/components/responses/403"

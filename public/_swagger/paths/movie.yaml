@@ -1,0 +1,211 @@
+paths:
+  /my-movies:
+    get:
+      tags:
+        - Movie
+      security:
+        - bearerAuth: []
+      summary: get all movies of currently authenticated user
+      responses:
+        "200":
+          $ref: "../responses/movie.yaml#/components/responses/movie_with_quotes/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+    post:
+      tags:
+        - Movie
+      security:
+        - bearerAuth: []
+      summary: create a movie
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  $ref: "../schemas/movie.yaml#/components/schemas/movieTitle"
+                description:
+                  $ref: "../schemas/movie.yaml#/components/schemas/movieDescription"
+                avatar:
+                  type: string
+                  format: binary
+                release_year:
+                  type: integer
+                  example: 1999
+                categories:
+                  type: array
+                  example: [1, 2]
+                budget:
+                  type: number
+                  example: 50000000
+                director:
+                  $ref: "../schemas/movie.yaml#/components/schemas/movieDirector"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  title:
+                    $ref: "../schemas/movie.yaml#/components/schemas/movieTitle"
+                  description:
+                    $ref: "../schemas/movie.yaml#/components/schemas/movieDescription"
+                  avatar:
+                    type: string
+                    format: binary
+                  release_year:
+                    type: integer
+                    example: 1999
+                  categories:
+                    type: array
+                    example: [1, 2]
+                  budget:
+                    type: number
+                    example: 50000000
+                  director:
+                    $ref: "../schemas/movie.yaml#/components/schemas/movieDirector"
+                  created_at:
+                    type: string
+                    example: "2022-07-26T20:06:02.000000Z"
+                  updated_at:
+                    type: string
+                    example: "2022-07-26T20:06:02.000000Z"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "422":
+          $ref: "../common.yaml#/components/responses/422"
+  /movies/{id}:
+    get:
+      tags:
+        - Movie
+      security:
+        - bearerAuth: []
+      summary: get movie by id
+      parameters:
+        - in: path
+          name: id
+      responses:
+        "200":
+          $ref: "../responses/movie.yaml#/components/responses/movie_with_categories_and_user/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "404":
+          $ref: "../common.yaml#/components/responses/404"
+    post:
+      tags:
+        - Movie
+      security:
+        - bearerAuth: []
+      summary: update a movie
+      parameters:
+        - in: path
+          name: id
+        - in: query
+          name: _method
+          schema:
+            type: string
+            example: patch
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  $ref: "../schemas/movie.yaml#/components/schemas/movieTitle"
+                description:
+                  $ref: "../schemas/movie.yaml#/components/schemas/movieDescription"
+                avatar:
+                  type: string
+                  format: binary
+                release_year:
+                  type: integer
+                  example: 1999
+                categories:
+                  type: array
+                  example: [1, 2]
+                budget:
+                  type: number
+                  example: 50000000
+                director:
+                  $ref: "../schemas/movie.yaml#/components/schemas/movieDirector"
+      responses:
+        "201":
+          description: movie updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  title:
+                    $ref: "../schemas/movie.yaml#/components/schemas/movieTitle"
+                  description:
+                    $ref: "../schemas/movie.yaml#/components/schemas/movieDescription"
+                  avatar:
+                    type: string
+                    format: binary
+                  release_year:
+                    type: integer
+                    example: 1999
+                  categories:
+                    type: array
+                    example: [1, 2]
+                  budget:
+                    type: number
+                    example: 50000000
+                  director:
+                    $ref: "../schemas/movie.yaml#/components/schemas/movieDirector"
+                  created_at:
+                    type: string
+                    example: "2022-07-26T20:06:02.000000Z"
+                  updated_at:
+                    type: string
+                    example: "2022-07-26T20:06:02.000000Z"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "422":
+          $ref: "../common.yaml#/components/responses/422"
+    delete:
+      tags:
+        - Movie
+      security:
+        - bearerAuth: []
+      summary: delete a movie
+      parameters:
+        - in: path
+          name: id
+      responses:
+        "200":
+          description: movie deleted
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "404":
+          $ref: "../common.yaml#/components/responses/404"
+  /movies/{id}/quotes:
+    get:
+      tags:
+        - Movie
+      security:
+        - bearerAuth: []
+      summary: get all quotes of a movie
+      parameters:
+        - in: path
+          name: id
+      responses:
+        "200":
+          $ref: "../responses/movie.yaml#/components/responses/movie_with_quotes_seperated/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "404":
+          $ref: "../common.yaml#/components/responses/404"

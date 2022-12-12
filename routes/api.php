@@ -12,6 +12,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SwaggerController;
 
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -82,9 +83,10 @@ Route::middleware(['jwt.auth'])->group(function () {
 
 	Route::get('/category', [CategoryController::class, 'get']);
 
+  Route::post('/swagger-login', [SwaggerController::class, 'login'])->name('swagger_login');
+  
 	Route::controller(NotificationController::class)->group(function () {
 		Route::get('/notification', 'index');
 		Route::patch('/notification/read-all', 'readAll');
 		Route::patch('/notification/{notification}', 'update');
 	});
-});

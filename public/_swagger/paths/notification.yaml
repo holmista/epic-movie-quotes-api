@@ -1,0 +1,46 @@
+paths:
+  /notification:
+    get:
+      tags:
+        - Notification
+      security:
+        - bearerAuth: []
+      summary: get all notifications of a user
+      responses:
+        "200":
+          $ref: "../responses/notification.yaml#/components/responses/notification/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+  /notification/read-all:
+    patch:
+      tags:
+        - Notification
+      security:
+        - bearerAuth: []
+      summary: mark all notifications as read
+      responses:
+        "200":
+          description: OK
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+  /notification/{id}:
+    patch:
+      tags:
+        - Notification
+      security:
+        - bearerAuth: []
+      summary: mark a notification as read
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: notification id
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "404":
+          $ref: "../common.yaml#/components/responses/404"

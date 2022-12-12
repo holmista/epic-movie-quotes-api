@@ -1,0 +1,78 @@
+openapi: 3.0.0
+info:
+  title: Epic Movie Quotes API
+  description: Epic Movie Quotes API endpoints
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api
+    description: local server
+  - url: http://localhost:8001/api
+    description: second local server
+  - url: http://production-example:8000/api
+    description: production server
+
+paths:
+  /signup:
+    $ref: "./_swagger/paths/auth.yaml#/paths/~1signup"
+  /swagger-login:
+    $ref: "./_swagger/paths/auth.yaml#/paths/~1signin"
+  /signout:
+    $ref: "./_swagger/paths/auth.yaml#/paths/~1signout"
+  /email/verify/{id}/{hash}:
+    $ref: "./_swagger/paths/email.yaml#/paths/~1email~1verify~1{id}~1{hash}"
+  /forgot-password:
+    $ref: "./_swagger/paths/forgotPassword.yaml#/paths/~1forgot-password"
+  /reset-password:
+    $ref: "./_swagger/paths/forgotPassword.yaml#/paths/~1reset-password"
+  /email:
+    $ref: "./_swagger/paths/profile.yaml#/paths/~1email"
+  /email/primary:
+    $ref: "./_swagger/paths/profile.yaml#/paths/~1make-primary-email"
+  /user:
+    $ref: "./_swagger/paths/profile.yaml#/paths/~1user"
+  /movies:
+    $ref: "./_swagger/paths/movie.yaml#/paths/~1my-movies"
+  /movies/{id}:
+    $ref: "./_swagger/paths/movie.yaml#/paths/~1movies~1{id}"
+  /movies/{id}/quotes:
+    $ref: "./_swagger/paths/movie.yaml#/paths/~1movies~1{id}~1quotes"
+  /quote:
+    $ref: "./_swagger/paths/quote.yaml#/paths/~1quote"
+  /quote/{id}:
+    $ref: "./_swagger/paths/quote.yaml#/paths/~1quote~1{id}"
+  /quote/{id}?_method=patch:
+    $ref: "./_swagger/paths/quote.yaml#/paths/~1quote~1{id}?_method=patch"
+  /comment:
+    $ref: "./_swagger/paths/comment.yaml#/paths/~1comment"
+  /like:
+    $ref: "./_swagger/paths/like.yaml#/paths/~1like"
+  /notification:
+    $ref: "./_swagger/paths/notification.yaml#/paths/~1notification"
+  /notification/read-all:
+    $ref: "./_swagger/paths/notification.yaml#/paths/~1notification~1read-all"
+  /notification/{id}:
+    $ref: "./_swagger/paths/notification.yaml#/paths/~1notification~1{id}"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    User:
+      allOf:
+        - $ref: "./_swagger/schemas/user.yaml#/components/schemas/user_info"
+    Movie:
+      allOf:
+        - $ref: "./_swagger/schemas/movie.yaml#/components/schemas/Movie"
+    Quote:
+      allOf:
+        - $ref: "./_swagger/schemas/quote.yaml#/components/schemas/Quote"
+    Comment:
+      allOf:
+        - $ref: "./_swagger/schemas/comment.yaml#/components/schemas/comment"
+    Notification:
+      allOf:
+        - $ref: "./_swagger/schemas/notification.yaml#/components/schemas/notification"

@@ -1,0 +1,42 @@
+components:
+  schemas:
+    User:
+      allOf:
+        - type: object
+          properties:
+            name:
+              type: string
+              example: ganshika
+            email:
+              type: string
+              example: ganshika@gmail.com
+            password:
+              type: string
+              example: password-ganshika
+            repeat_password:
+              type: string
+              example: password-ganshika
+        - $ref: "../common.yaml#/components/schemas/TimeStamps"
+    user_info:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: ganshika
+            email:
+              type: string
+              example: ganshika@gmail.com
+            email_verified_at:
+              type: string
+              example: "2022-12-03T18:35:32.000000Z"
+            google_id:
+              type: string
+              example: null
+            avatar:
+              type: string
+              example: https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50
+        - $ref: "../common.yaml#/components/schemas/TimeStamps"

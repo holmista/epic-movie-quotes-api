@@ -1,0 +1,105 @@
+components:
+  responses:
+    quotes_news_feed:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              allOf:
+                - type: object
+                  properties:
+                    current_page:
+                      type: integer
+                      example: 1
+                    data:
+                      type: array
+                      items:
+                        allOf:
+                          - type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 1
+                              title:
+                                $ref: "../schemas/quote.yaml#/components/schemas/quoteTitle"
+                              avatar:
+                                type: string
+                                example: https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50
+                              user_id:
+                                type: integer
+                                example: 1
+                              movie_id:
+                                type: integer
+                                example: 1
+                              comments_count:
+                                type: integer
+                                example: 1
+                              likes_count:
+                                type: integer
+                                example: 1
+                              comments:
+                                type: array
+                                items:
+                                  $ref: "../schemas/comment.yaml#/components/schemas/comment_with_user"
+                          - $ref: "../common.yaml#/components/schemas/TimeStamps"
+    quote_created:
+      "201":
+        description: Created
+        content:
+          application/json:
+            schema:
+              allOf:
+                - type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    title:
+                      $ref: "../schemas/quote.yaml#/components/schemas/quoteTitle"
+                    avatar:
+                      type: string
+                      example: https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50
+                    user_id:
+                      type: integer
+                      example: 1
+                    movie_id:
+                      type: integer
+                      example: 1
+                    comments_count:
+                      type: integer
+                      example: 1
+                    likes_count:
+                      type: integer
+                      example: 1
+                - $ref: "../common.yaml#/components/schemas/TimeStamps"
+    quote:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              allOf:
+                - type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    title:
+                      $ref: "../schemas/quote.yaml#/components/schemas/quoteTitle"
+                    avatar:
+                      type: string
+                      example: https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50
+                    user_id:
+                      type: integer
+                      example: 1
+                    movie_id:
+                      type: integer
+                      example: 1
+                    comments:
+                      type: array
+                      items:
+                        $ref: "../schemas/comment.yaml#/components/schemas/comment_with_user"
+                    user:
+                      $ref: "../schemas/user.yaml#/components/schemas/user_info"
+                - $ref: "../common.yaml#/components/schemas/TimeStamps"

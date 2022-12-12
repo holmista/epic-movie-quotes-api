@@ -1,0 +1,173 @@
+components:
+  schemas:
+    movieTitle:
+      type: object
+      properties:
+        en:
+          type: string
+          example: The Matrix
+        ka:
+          type: string
+          example: მატრიცა
+    movieDescription:
+      type: object
+      properties:
+        en:
+          type: string
+          example: The Matrix is a good movie
+        ka:
+          type: string
+          example: მატრიცა კარგი ფილმია
+    movieDirector:
+      type: object
+      properties:
+        en:
+          type: string
+          example: the wachowskies
+        ka:
+          type: string
+          example: ვაჩოვსკიები
+    movieCategories:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+          name:
+            type: object
+            properties:
+              en:
+                type: string
+                example: action
+              ka:
+                type: string
+                example: ექშენი
+    movieUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: ganshika
+        email:
+          type: string
+          example: ganshika@gmail.com
+        email_verified_at:
+          type: string
+          example: "2022-07-26T20:06:02.000000Z"
+        google_id:
+          type: string
+          example: null
+        avatar:
+          type: string
+          example: https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50
+        created_at:
+          type: string
+          example: "2022-07-26T20:06:02.000000Z"
+        updated_at:
+          type: string
+          example: "2022-07-26T20:06:02.000000Z"
+    movieQuotes:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+          title:
+            type: object
+            properties:
+              en:
+                type: string
+                example: i thought you were financially stable
+              ka:
+                type: string
+                example: მეგონა ფინანსურად სტაბილური იყავი
+          avatar:
+            type: string
+            example: http://127.0.0.1:8000/storage/avatars/ZgwWkHnBPEsXAXvvDINlqjBQMJHWZJKEe1HMZanb.jpg
+          user_id:
+            type: integer
+            example: 1
+          movie_id:
+            type: integer
+            example: 1
+          created_at:
+            type: string
+            example: 2020-05-02T12:37:08.000000Z
+          updated_at:
+            type: string
+            example: 2020-05-02T12:37:08.000000Z
+
+    Movie:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            title:
+              allOf:
+                - type: object
+                  properties:
+                    en:
+                      type: string
+                      example: The Matrix
+                    ka:
+                      type: string
+                      example: მატრიცა
+            description:
+              allOf:
+                - type: object
+                  properties:
+                    en:
+                      type: string
+                      example: The Matrix is a good movie
+                    ka:
+                      type: string
+                      example: მატრიცა კარგი ფილმია
+            avatar:
+              type: string
+              example: http://127.0.0.1:8000/storage/avatars/7KVVO2e1j1YTuW8Ea7DdQOp7EgIhsBeecfKwipJQ.png
+            release_year:
+              type: integer
+              example: 1999
+            budget:
+              type: integer
+              example: 63000000
+            director:
+              allOf:
+                - type: object
+                  properties:
+                    en:
+                      type: string
+                      example: the wachowskies
+                    ka:
+                      type: string
+                      example: ვაჩოვსკიები
+            user_id:
+              type: integer
+              example: 1
+            categories:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: object
+                    properties:
+                      en:
+                        type: string
+                        example: fantasy
+                      ka:
+                        type: string
+                        example: ფენტეზი
+        - $ref: "../common.yaml#/components/schemas/TimeStamps"
