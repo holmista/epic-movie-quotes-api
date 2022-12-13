@@ -83,10 +83,11 @@ Route::middleware(['jwt.auth'])->group(function () {
 
 	Route::get('/category', [CategoryController::class, 'get']);
 
-  Route::post('/swagger-login', [SwaggerController::class, 'login'])->name('swagger_login');
-  
+	Route::post('/swagger-login', [SwaggerController::class, 'login'])->name('swagger_login');
+
 	Route::controller(NotificationController::class)->group(function () {
 		Route::get('/notification', 'index');
 		Route::patch('/notification/read-all', 'readAll');
 		Route::patch('/notification/{notification}', 'update');
 	});
+});

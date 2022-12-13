@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
 use App\Http\Requests\DeleteMovieRequest;
-
+use App\Http\Requests\GetMovieRequest;
 use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
@@ -70,8 +70,8 @@ class MovieController extends Controller
 		$movie->delete();
 		return response()->json(['message'=>'Movie deleted successfully.'], 204);
 	}
-	public function movieQuotes(DeleteMovieRequest $request, Movie $movie): JsonResponse
 
+	public function movieQuotes(DeleteMovieRequest $request, Movie $movie): JsonResponse
 	{
 		return response()->json(['movie'=>$movie, 'quotes'=>$movie->quotes()->withCount('comments', 'likes')->get()]);
 	}
