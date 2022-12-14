@@ -8,7 +8,7 @@ servers:
     description: local server
   - url: http://localhost:8001/api
     description: second local server
-  - url: http://production-example:8000/api
+  - url: https://epic-movie-quotes-api.tornike-buchukuri.redberryinternship.ge/api
     description: production server
 
 paths:
