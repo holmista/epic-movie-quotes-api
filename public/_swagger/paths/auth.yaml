@@ -50,8 +50,6 @@ paths:
       tags:
         - Auth
       summary: log in a user
-      security:
-        - cookieAuth: []
       requestBody:
         required: true
         content:
